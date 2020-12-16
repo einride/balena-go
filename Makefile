@@ -1,4 +1,5 @@
-# all: run a complete build
+SHELL := /bin/bash
+
 .PHONY: all
 all: \
 	commitlint \
