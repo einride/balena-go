@@ -1,0 +1,15 @@
+run:
+  timeout: 5m
+
+linters:
+  enable-all: true
+  disable:
+    - dupl # allow duplication
+    - funlen # allow long functions
+    - wsl # unwanted amount of whitespace
+    - godox # allow TODOs
+    - testpackage # unwanted convention
+    - nestif # allow deep nesting
+    - goerr113 # allow "dynamic" errors
+    - goconst # not all strings should be constants
+    - nlreturn # allow returns without blank line before
