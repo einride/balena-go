@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/einride/balena-go/odata"
+	"go.einride.tech/balena/odata"
 	"gotest.tools/v3/assert"
 )
 

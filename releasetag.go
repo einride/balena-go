@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/einride/balena-go/odata"
+	"go.einride.tech/balena/odata"
 )
 
 const releaseTagBasePath = "v5/release_tag"
