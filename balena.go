@@ -228,7 +228,7 @@ func (c *Client) Do(req *http.Request, v interface{}) error {
 			err = rerr
 		}
 	}()
-	err = CheckResponse(resp)
+	err = checkResponse(resp)
 	if err != nil {
 		return err
 	}
@@ -248,9 +248,9 @@ func (c *Client) Do(req *http.Request, v interface{}) error {
 	return err
 }
 
-// CheckResponse checks the API response for errors, and returns them if present. A response is considered an
+// checkResponse checks the API response for errors, and returns them if present. A response is considered an
 // error if it has a status code outside the 200 range.
-func CheckResponse(r *http.Response) error {
+func checkResponse(r *http.Response) error {
 	if c := r.StatusCode; c >= 200 && c <= 299 {
 		return nil
 	}
