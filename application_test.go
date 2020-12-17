@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/einride/balena-go/odata"
-	"github.com/stretchr/testify/require"
+	"gotest.tools/v3/assert"
 )
 
 const (
@@ -71,8 +71,8 @@ func TestApplicationService_List(t *testing.T) {
 	// When
 	actual, err := client.Application.List(context.Background())
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestApplicationService_GetWithQuery(t *testing.T) {
@@ -109,8 +109,8 @@ func TestApplicationService_GetWithQuery(t *testing.T) {
 	// When
 	actual, err := client.Application.GetWithQuery(context.Background(), "%24filter=app_name%20eq%20%27dev-device%27")
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestApplicationService_Get(t *testing.T) {
@@ -141,8 +141,8 @@ func TestApplicationService_Get(t *testing.T) {
 	// When
 	actual, err := client.Application.Get(context.Background(), entityID)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestApplicationService_Get_NotFound(t *testing.T) {
@@ -160,8 +160,8 @@ func TestApplicationService_Get_NotFound(t *testing.T) {
 	// When
 	actual, err := client.Application.Get(context.Background(), entityID)
 	// Then
-	require.NoError(t, err)
-	require.Nil(t, actual)
+	assert.NilError(t, err)
+	assert.Assert(t, actual == nil)
 }
 
 func TestApplicationService_GetByName(t *testing.T) {
@@ -197,8 +197,8 @@ func TestApplicationService_GetByName(t *testing.T) {
 	// When
 	actual, err := client.Application.GetByName(context.Background(), entityName)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestApplicationService_GetByName_NotFound(t *testing.T) {
@@ -221,8 +221,8 @@ func TestApplicationService_GetByName_NotFound(t *testing.T) {
 	// When
 	actual, err := client.Application.GetByName(context.Background(), entityName)
 	// Then
-	require.NoError(t, err)
-	require.Nil(t, actual)
+	assert.NilError(t, err)
+	assert.Assert(t, actual == nil)
 }
 
 func TestApplicationService_EnableTrackLatestRelease(t *testing.T) {
@@ -235,16 +235,16 @@ func TestApplicationService_EnableTrackLatestRelease(t *testing.T) {
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPatch)
 			b, err := ioutil.ReadAll(r.Body)
-			require.NoError(t, err)
-			require.Equal(t, `{"should_track_latest_release":true}`+"\n", string(b))
+			assert.NilError(t, err)
+			assert.Equal(t, `{"should_track_latest_release":true}`+"\n", string(b))
 			fmt.Fprint(w, "OK")
 		},
 	)
 	// When
 	resp, err := client.Application.EnableTrackLatestRelease(context.Background(), entityID)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, "OK", string(resp))
+	assert.NilError(t, err)
+	assert.Equal(t, "OK", string(resp))
 }
 
 func TestApplicationService_DisableTrackLatestRelease(t *testing.T) {
@@ -257,14 +257,14 @@ func TestApplicationService_DisableTrackLatestRelease(t *testing.T) {
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPatch)
 			b, err := ioutil.ReadAll(r.Body)
-			require.NoError(t, err)
-			require.Equal(t, `{"should_track_latest_release":false}`+"\n", string(b))
+			assert.NilError(t, err)
+			assert.Equal(t, `{"should_track_latest_release":false}`+"\n", string(b))
 			fmt.Fprint(w, "OK")
 		},
 	)
 	// When
 	resp, err := client.Application.DisableTrackLatestRelease(context.Background(), entityID)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, "OK", string(resp))
+	assert.NilError(t, err)
+	assert.Equal(t, "OK", string(resp))
 }

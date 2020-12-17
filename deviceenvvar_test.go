@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/einride/balena-go/odata"
-	"github.com/stretchr/testify/require"
+	"gotest.tools/v3/assert"
 )
 
 func TestDeviceEnvVarService_List_ID(t *testing.T) {
@@ -61,8 +61,8 @@ func TestDeviceEnvVarService_List_ID(t *testing.T) {
 	// When
 	actual, err := client.DeviceEnvVar.List(context.Background(), DeviceID(deviceID))
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceEnvVarService_List_UUID(t *testing.T) {
@@ -113,8 +113,8 @@ func TestDeviceEnvVarService_List_UUID(t *testing.T) {
 	// When
 	actual, err := client.DeviceEnvVar.List(context.Background(), DeviceUUID(uuid))
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceEnvVarService_Create_ID(t *testing.T) {
@@ -147,12 +147,12 @@ func TestDeviceEnvVarService_Create_ID(t *testing.T) {
 	mux.HandleFunc("/"+deviceEnvVarBasePath, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		b, err := ioutil.ReadAll(r.Body)
-		require.NoError(t, err)
+		assert.NilError(t, err)
 		req := &request{}
-		require.NoError(t, json.Unmarshal(b, req))
-		require.Equal(t, strconv.FormatInt(deviceID, 10), req.Device)
-		require.Equal(t, key, req.Name)
-		require.Equal(t, value, req.Value)
+		assert.NilError(t, json.Unmarshal(b, req))
+		assert.Equal(t, strconv.FormatInt(deviceID, 10), req.Device)
+		assert.Equal(t, key, req.Name)
+		assert.Equal(t, value, req.Value)
 		fmt.Fprint(w, jsonResp)
 	})
 	expected := &DeviceEnvVarResponse{
@@ -168,8 +168,8 @@ func TestDeviceEnvVarService_Create_ID(t *testing.T) {
 	// When
 	actual, err := client.DeviceEnvVar.Create(context.Background(), DeviceID(deviceID), key, value)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceEnvVarService_Create_UUID(t *testing.T) {
@@ -213,12 +213,12 @@ func TestDeviceEnvVarService_Create_UUID(t *testing.T) {
 	mux.HandleFunc("/"+deviceEnvVarBasePath, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		b, err := ioutil.ReadAll(r.Body)
-		require.NoError(t, err)
+		assert.NilError(t, err)
 		req := &request{}
-		require.NoError(t, json.Unmarshal(b, req))
-		require.Equal(t, strconv.FormatInt(deviceID, 10), req.Device)
-		require.Equal(t, key, req.Name)
-		require.Equal(t, value, req.Value)
+		assert.NilError(t, json.Unmarshal(b, req))
+		assert.Equal(t, strconv.FormatInt(deviceID, 10), req.Device)
+		assert.Equal(t, key, req.Name)
+		assert.Equal(t, value, req.Value)
 		fmt.Fprint(w, jsonResp)
 	})
 	expected := &DeviceEnvVarResponse{
@@ -234,8 +234,8 @@ func TestDeviceEnvVarService_Create_UUID(t *testing.T) {
 	// When
 	actual, err := client.DeviceEnvVar.Create(context.Background(), DeviceUUID(uuid), key, value)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceEnvVarService_DeleteWithName_ID_OK(t *testing.T) {
@@ -274,7 +274,7 @@ func TestDeviceEnvVarService_DeleteWithName_ID_OK(t *testing.T) {
 	// When
 	err := client.DeviceEnvVar.DeleteWithName(context.Background(), DeviceID(deviceID), key)
 	// Then
-	require.NoError(t, err)
+	assert.NilError(t, err)
 }
 
 func TestDeviceEnvVarService_DeleteWithName_UUID_OK(t *testing.T) {
@@ -313,7 +313,7 @@ func TestDeviceEnvVarService_DeleteWithName_UUID_OK(t *testing.T) {
 	// When
 	err := client.DeviceEnvVar.DeleteWithName(context.Background(), DeviceUUID(uuid), key)
 	// Then
-	require.NoError(t, err)
+	assert.NilError(t, err)
 }
 
 func TestDeviceEnvVarService_DeleteWithName_NotFound(t *testing.T) {
@@ -336,5 +336,5 @@ func TestDeviceEnvVarService_DeleteWithName_NotFound(t *testing.T) {
 	// When
 	err := client.DeviceEnvVar.DeleteWithName(context.Background(), DeviceID(deviceID), key)
 	// Then
-	require.NoError(t, err)
+	assert.NilError(t, err)
 }

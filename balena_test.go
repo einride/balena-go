@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/stretchr/testify/require"
+	"gotest.tools/v3/assert"
 )
 
 func TestNewRequest(t *testing.T) {
@@ -26,10 +26,10 @@ func TestNewRequest(t *testing.T) {
 	req, _ := c.NewRequest(context.Background(), http.MethodGet, inURL, "", inBody)
 	// then
 	// test relative URL was expanded
-	require.Equal(t, req.URL.String(), outURL)
+	assert.Equal(t, req.URL.String(), outURL)
 	// test body was JSON encoded
 	body, _ := ioutil.ReadAll(req.Body)
-	require.Equal(t, string(body), outBody)
+	assert.Equal(t, string(body), outBody)
 
 	// test default user-agent is attached to the request
 	userAgent := req.Header.Get("User-Agent")
@@ -44,7 +44,7 @@ func TestNewRequest_badURL(t *testing.T) {
 	// when
 	_, err := c.NewRequest(context.Background(), http.MethodGet, ":", "", nil)
 	// then
-	require.Error(t, err)
+	assert.Assert(t, err != nil)
 }
 
 func TestNewRequest_Query(t *testing.T) {
@@ -53,8 +53,8 @@ func TestNewRequest_Query(t *testing.T) {
 	// when
 	req, err := c.NewRequest(context.Background(), http.MethodGet, "foo", "key=value", nil)
 	// then
-	require.NoError(t, err)
-	require.Equal(t, "key=value", req.URL.RawQuery)
+	assert.NilError(t, err)
+	assert.Equal(t, "key=value", req.URL.RawQuery)
 }
 
 func TestDo(t *testing.T) {
@@ -75,14 +75,14 @@ func TestDo(t *testing.T) {
 		fmt.Fprint(w, `{"A":"a"}`)
 	})
 	req, err := client.NewRequest(context.Background(), http.MethodGet, "/", "", nil)
-	require.NoError(t, err)
+	assert.NilError(t, err)
 	body := &foo{}
 	// when
 	err = client.Do(req, body)
 	// then
-	require.NoError(t, err)
+	assert.NilError(t, err)
 	expected := &foo{"a"}
-	require.Equal(t, expected, body)
+	assert.DeepEqual(t, expected, body)
 }
 
 func newFixture() (*Client, *http.ServeMux, func()) {
@@ -108,7 +108,7 @@ func supervisorV2Fixture(t *testing.T) (*SupervisorV2Service, *http.ServeMux) {
 	mux := http.NewServeMux()
 	server := httptest.NewServer(mux)
 	client, err := NewSupervisorV2(nil)
-	require.NoError(t, err)
+	assert.NilError(t, err)
 	url, _ := url.Parse(server.URL + "/")
 	client.client.BaseURL = url
 	t.Cleanup(func() {
@@ -127,7 +127,7 @@ func supervisorV1Fixture(t *testing.T) (*SupervisorV1Service, *http.ServeMux) {
 	mux := http.NewServeMux()
 	server := httptest.NewServer(mux)
 	client, err := NewSupervisorV1(nil)
-	require.NoError(t, err)
+	assert.NilError(t, err)
 	url, _ := url.Parse(server.URL + "/")
 	client.client.BaseURL = url
 	t.Cleanup(func() {
