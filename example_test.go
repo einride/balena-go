@@ -3,7 +3,7 @@ package balena_test
 import (
 	"context"
 
-	"github.com/einride/balena-go"
+	"go.einride.tech/balena"
 )
 
 func ExampleDeviceService_Get() {

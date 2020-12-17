@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/einride/balena-go/odata"
+	"go.einride.tech/balena/odata"
 )
 
 const deviceTagBasePath = "v4/device_tag"

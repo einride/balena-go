@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/einride/balena-go/odata"
+	"go.einride.tech/balena/odata"
 )
 
 const applicationBasePath = "v4/application"

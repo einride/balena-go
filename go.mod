@@ -1,4 +1,4 @@
-module github.com/einride/balena-go
+module go.einride.tech/balena
 
 go 1.14
 
