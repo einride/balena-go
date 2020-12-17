@@ -3,11 +3,12 @@ package balena
 import (
 	"context"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/einride/balena-go/odata"
-	"golang.org/x/xerrors"
 )
 
 const releaseBasePath = "v4/release"
@@ -46,7 +47,7 @@ func (s *ReleaseService) Get(ctx context.Context, id int64) (*ReleaseResponse, e
 		nil,
 	)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to create get request: %v", err)
+		return nil, fmt.Errorf("unable to create get request: %v", err)
 	}
 	type Response struct {
 		D []ReleaseResponse `json:"d,omitempty"`
@@ -54,10 +55,10 @@ func (s *ReleaseService) Get(ctx context.Context, id int64) (*ReleaseResponse, e
 	resp := &Response{}
 	err = s.client.Do(req, resp)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to get release: %v", err)
+		return nil, fmt.Errorf("unable to get release: %v", err)
 	}
 	if len(resp.D) > 1 {
-		return nil, xerrors.New("received more than 1 release, expected 0 or 1")
+		return nil, errors.New("received more than 1 release, expected 0 or 1")
 	}
 	if len(resp.D) == 0 {
 		return nil, nil
@@ -72,7 +73,7 @@ func (s *ReleaseService) Get(ctx context.Context, id int64) (*ReleaseResponse, e
 func (s *ReleaseService) GetWithQuery(ctx context.Context, query string) ([]*ReleaseResponse, error) {
 	req, err := s.client.NewRequest(ctx, http.MethodGet, releaseBasePath, query, nil)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to create release request: %v", err)
+		return nil, fmt.Errorf("unable to create release request: %v", err)
 	}
 	type Response struct {
 		D []*ReleaseResponse `json:"d,omitempty"`
@@ -80,7 +81,7 @@ func (s *ReleaseService) GetWithQuery(ctx context.Context, query string) ([]*Rel
 	resp := &Response{}
 	err = s.client.Do(req, resp)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to query release: %v", err)
+		return nil, fmt.Errorf("unable to query release: %v", err)
 	}
 	return resp.D, nil
 }

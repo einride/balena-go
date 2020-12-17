@@ -3,11 +3,12 @@ package balena
 import (
 	"bytes"
 	"context"
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/einride/balena-go/odata"
-	"golang.org/x/xerrors"
 )
 
 const deviceBasePath = "v4/device"
@@ -84,7 +85,7 @@ func (s *DeviceService) Get(ctx context.Context, deviceID IDOrUUID) (*DeviceResp
 	}
 	req, err := s.client.NewRequest(ctx, http.MethodGet, path, query, nil)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to create get request: %v", err)
+		return nil, fmt.Errorf("unable to create get request: %v", err)
 	}
 	type Response struct {
 		D []DeviceResponse `json:"d,omitempty"`
@@ -92,10 +93,10 @@ func (s *DeviceService) Get(ctx context.Context, deviceID IDOrUUID) (*DeviceResp
 	resp := &Response{}
 	err = s.client.Do(req, resp)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to get device: %v", err)
+		return nil, fmt.Errorf("unable to get device: %v", err)
 	}
 	if len(resp.D) > 1 {
-		return nil, xerrors.New("received more than 1 device, expected 0 or 1")
+		return nil, errors.New("received more than 1 device, expected 0 or 1")
 	}
 	if len(resp.D) == 0 {
 		return nil, nil
@@ -110,7 +111,7 @@ func (s *DeviceService) Get(ctx context.Context, deviceID IDOrUUID) (*DeviceResp
 func (s *DeviceService) GetWithQuery(ctx context.Context, query string) ([]*DeviceResponse, error) {
 	req, err := s.client.NewRequest(ctx, http.MethodGet, deviceBasePath, query, nil)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to create device request: %v", err)
+		return nil, fmt.Errorf("unable to create device request: %v", err)
 	}
 	type Response struct {
 		D []*DeviceResponse `json:"d,omitempty"`
@@ -118,7 +119,7 @@ func (s *DeviceService) GetWithQuery(ctx context.Context, query string) ([]*Devi
 	resp := &Response{}
 	err = s.client.Do(req, resp)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to query device: %v", err)
+		return nil, fmt.Errorf("unable to query device: %v", err)
 	}
 	return resp.D, nil
 }
@@ -143,12 +144,12 @@ func (s *DeviceService) PinRelease(ctx context.Context, deviceID IDOrUUID, relea
 		&request{ShouldRunRelease: release},
 	)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to create setRelease request: %v", err)
+		return nil, fmt.Errorf("unable to create setRelease request: %v", err)
 	}
 	buf := &bytes.Buffer{}
 	err = s.client.Do(req, buf)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to patch device: %v", err)
+		return nil, fmt.Errorf("unable to patch device: %v", err)
 	}
 	return buf.Bytes(), nil
 }
@@ -172,12 +173,12 @@ func (s *DeviceService) TrackLatestRelease(ctx context.Context, deviceID IDOrUUI
 		&request{ShouldRunRelease: nil},
 	)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to create setRelease request: %v", err)
+		return nil, fmt.Errorf("unable to create setRelease request: %v", err)
 	}
 	buf := &bytes.Buffer{}
 	err = s.client.Do(req, buf)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to patch device: %v", err)
+		return nil, fmt.Errorf("unable to patch device: %v", err)
 	}
 	return buf.Bytes(), nil
 }

@@ -3,11 +3,12 @@ package balena
 import (
 	"bytes"
 	"context"
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/einride/balena-go/odata"
-	"golang.org/x/xerrors"
 )
 
 const applicationBasePath = "v4/application"
@@ -48,7 +49,7 @@ func (s *ApplicationService) Get(ctx context.Context, applicationID int64) (*App
 	path := odata.EntityURL(applicationBasePath, strconv.FormatInt(applicationID, 10))
 	resp, err := s.getWithQueryAndPath(ctx, path, "")
 	if len(resp) > 1 {
-		return nil, xerrors.Errorf("received more than 1 application, expected 0 or 1")
+		return nil, errors.New("received more than 1 application, expected 0 or 1")
 	}
 	if len(resp) == 0 {
 		return nil, nil
@@ -62,7 +63,7 @@ func (s *ApplicationService) GetByName(ctx context.Context, applicationName stri
 	query := "%24filter=app_name%20eq%20%27" + applicationName + "%27"
 	resp, err := s.getWithQueryAndPath(ctx, applicationBasePath, query)
 	if len(resp) > 1 {
-		return nil, xerrors.Errorf("received more than 1 application, expected 0 or 1")
+		return nil, errors.New("received more than 1 application, expected 0 or 1")
 	}
 	if len(resp) == 0 {
 		return nil, nil
@@ -77,7 +78,7 @@ func (s *ApplicationService) getWithQueryAndPath(
 ) ([]*ApplicationsResponse, error) {
 	req, err := s.client.NewRequest(ctx, http.MethodGet, path, query, nil)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to create get request: %v", err)
+		return nil, fmt.Errorf("unable to create get request: %v", err)
 	}
 	type Response struct {
 		D []ApplicationsResponse `json:"d,omitempty"`
@@ -85,7 +86,7 @@ func (s *ApplicationService) getWithQueryAndPath(
 	resp := &Response{}
 	err = s.client.Do(req, resp)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to get application list: %v", err)
+		return nil, fmt.Errorf("unable to get application list: %v", err)
 	}
 	apps := make([]*ApplicationsResponse, 0, len(resp.D))
 	for _, app := range resp.D {
@@ -104,12 +105,12 @@ func (s *ApplicationService) EnableTrackLatestRelease(ctx context.Context, appli
 	path := odata.EntityURL(applicationBasePath, strconv.FormatInt(applicationID, 10))
 	req, err := s.client.NewRequest(ctx, http.MethodPatch, path, query, &request{ShouldTrackLatestRelease: true})
 	if err != nil {
-		return nil, xerrors.Errorf("unable to create setTrackLatestRelease request: %v", err)
+		return nil, fmt.Errorf("unable to create setTrackLatestRelease request: %v", err)
 	}
 	var buf bytes.Buffer
 	err = s.client.Do(req, &buf)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to path application: %v", err)
+		return nil, fmt.Errorf("unable to path application: %v", err)
 	}
 	return buf.Bytes(), nil
 }
@@ -123,12 +124,12 @@ func (s *ApplicationService) DisableTrackLatestRelease(ctx context.Context, appl
 	path := odata.EntityURL(applicationBasePath, strconv.FormatInt(applicationID, 10))
 	req, err := s.client.NewRequest(ctx, http.MethodPatch, path, query, &request{ShouldTrackLatestRelease: false})
 	if err != nil {
-		return nil, xerrors.Errorf("unable to create setTrackLatestRelease request: %v", err)
+		return nil, fmt.Errorf("unable to create setTrackLatestRelease request: %v", err)
 	}
 	var buf bytes.Buffer
 	err = s.client.Do(req, &buf)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to path application: %v", err)
+		return nil, fmt.Errorf("unable to path application: %v", err)
 	}
 	return buf.Bytes(), nil
 }
