@@ -1,8 +1,19 @@
-# Balena Go [![PkgGoDev](https://pkg.go.dev/badge/go.einride.tech/balena)](https://pkg.go.dev/go.einride.tech/balena)
+# Balena Go
 
-Go library for accessing the Balena API
+[![PkgGoDev](https://pkg.go.dev/badge/go.einride.tech/balena)](https://pkg.go.dev/go.einride.tech/balena)
+
+<br />
+<img align="left" src="logo.svg" width="180" height="180">
+<br />
+<br />
+
+Balena Go is a library for accessing the Balena API
 
 Balena API docs can be found [here](https://www.balena.io/docs/reference/api/overview/)
+<br />
+<br />
+<br />
+<br />
 
 ## Install
 
