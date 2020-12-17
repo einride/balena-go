@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/einride/balena-go/odata"
-	"github.com/stretchr/testify/require"
+	"gotest.tools/v3/assert"
 )
 
 func TestDeviceTagService_List_ID(t *testing.T) {
@@ -60,8 +60,8 @@ func TestDeviceTagService_List_ID(t *testing.T) {
 	// When
 	actual, err := client.DeviceTag.List(context.Background(), DeviceID(deviceID))
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceTagService_List_UUID(t *testing.T) {
@@ -110,8 +110,8 @@ func TestDeviceTagService_List_UUID(t *testing.T) {
 	// When
 	actual, err := client.DeviceTag.List(context.Background(), DeviceUUID(uuid))
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceTagService_Create_ID(t *testing.T) {
@@ -143,12 +143,12 @@ func TestDeviceTagService_Create_ID(t *testing.T) {
 	mux.HandleFunc("/"+deviceTagBasePath, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		b, err := ioutil.ReadAll(r.Body)
-		require.NoError(t, err)
+		assert.NilError(t, err)
 		req := &request{}
-		require.NoError(t, json.Unmarshal(b, req))
-		require.Equal(t, strconv.FormatInt(deviceID, 10), req.DeviceID)
-		require.Equal(t, key, req.Key)
-		require.Equal(t, value, req.Value)
+		assert.NilError(t, json.Unmarshal(b, req))
+		assert.Equal(t, strconv.FormatInt(deviceID, 10), req.DeviceID)
+		assert.Equal(t, key, req.Key)
+		assert.Equal(t, value, req.Value)
 		fmt.Fprint(w, jsonResp)
 	})
 	expected := &DeviceTagResponse{
@@ -163,8 +163,8 @@ func TestDeviceTagService_Create_ID(t *testing.T) {
 	// When
 	actual, err := client.DeviceTag.Create(context.Background(), DeviceID(deviceID), key, value)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceTagService_Create_UUID(t *testing.T) {
@@ -207,12 +207,12 @@ func TestDeviceTagService_Create_UUID(t *testing.T) {
 	mux.HandleFunc("/"+deviceTagBasePath, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		b, err := ioutil.ReadAll(r.Body)
-		require.NoError(t, err)
+		assert.NilError(t, err)
 		req := &request{}
-		require.NoError(t, json.Unmarshal(b, req))
-		require.Equal(t, strconv.FormatInt(deviceID, 10), req.DeviceID)
-		require.Equal(t, key, req.Key)
-		require.Equal(t, value, req.Value)
+		assert.NilError(t, json.Unmarshal(b, req))
+		assert.Equal(t, strconv.FormatInt(deviceID, 10), req.DeviceID)
+		assert.Equal(t, key, req.Key)
+		assert.Equal(t, value, req.Value)
 		fmt.Fprint(w, jsonResp)
 	})
 	expected := &DeviceTagResponse{
@@ -227,8 +227,8 @@ func TestDeviceTagService_Create_UUID(t *testing.T) {
 	// When
 	actual, err := client.DeviceTag.Create(context.Background(), DeviceID(deviceID), key, value)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceTagService_GetWithKey_ID(t *testing.T) {
@@ -276,8 +276,8 @@ func TestDeviceTagService_GetWithKey_ID(t *testing.T) {
 	// When
 	actual, err := client.DeviceTag.GetWithKey(context.Background(), DeviceID(deviceID), key)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceTagService_GetWithKey_UUID(t *testing.T) {
@@ -325,8 +325,8 @@ func TestDeviceTagService_GetWithKey_UUID(t *testing.T) {
 	// When
 	actual, err := client.DeviceTag.GetWithKey(context.Background(), DeviceUUID(deviceUUID), key)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceTagService_GetWithKey_NotFound(t *testing.T) {
@@ -344,8 +344,8 @@ func TestDeviceTagService_GetWithKey_NotFound(t *testing.T) {
 	// When
 	actual, err := client.DeviceTag.GetWithKey(context.Background(), DeviceID(deviceID), "key")
 	// Then
-	require.NoError(t, err)
-	require.Nil(t, actual)
+	assert.NilError(t, err)
+	assert.Assert(t, actual == nil)
 }
 
 func TestDeviceTagService_UpdateWithKey_UUID(t *testing.T) {
@@ -367,7 +367,7 @@ func TestDeviceTagService_UpdateWithKey_UUID(t *testing.T) {
 	// When
 	err := client.DeviceTag.UpdateWithKey(context.Background(), DeviceUUID(uuid), key, value)
 	// Then
-	require.NoError(t, err)
+	assert.NilError(t, err)
 }
 
 func TestDeviceTagService_UpdateWithKey_ID(t *testing.T) {
@@ -389,7 +389,7 @@ func TestDeviceTagService_UpdateWithKey_ID(t *testing.T) {
 	// When
 	err := client.DeviceTag.UpdateWithKey(context.Background(), DeviceID(id), key, value)
 	// Then
-	require.NoError(t, err)
+	assert.NilError(t, err)
 }
 
 func TestDeviceTagService_DeleteWithKey_ID(t *testing.T) {
@@ -428,7 +428,7 @@ func TestDeviceTagService_DeleteWithKey_ID(t *testing.T) {
 	// When
 	err := client.DeviceTag.DeleteWithKey(context.Background(), DeviceID(deviceID), key)
 	// Then
-	require.NoError(t, err)
+	assert.NilError(t, err)
 }
 
 func TestDeviceTagService_DeleteWithKey_UUID(t *testing.T) {
@@ -467,7 +467,7 @@ func TestDeviceTagService_DeleteWithKey_UUID(t *testing.T) {
 	// When
 	err := client.DeviceTag.DeleteWithKey(context.Background(), DeviceUUID(uuid), key)
 	// Then
-	require.NoError(t, err)
+	assert.NilError(t, err)
 }
 
 func TestDeviceTagService_GetWithQuery(t *testing.T) {
@@ -515,6 +515,6 @@ func TestDeviceTagService_GetWithQuery(t *testing.T) {
 	// When
 	actual, err := client.DeviceTag.GetWithQuery(context.Background(), "%24filter=key+eq+%27value%27")
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }

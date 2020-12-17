@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"github.com/einride/balena-go/odata"
-	"github.com/stretchr/testify/require"
+	"gotest.tools/v3/assert"
 )
 
 const (
@@ -168,8 +168,8 @@ func TestReleaseService_List(t *testing.T) {
 	// When
 	actual, err := client.Release.List(context.Background())
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestReleaseService_Get(t *testing.T) {
@@ -251,8 +251,8 @@ func TestReleaseService_Get(t *testing.T) {
 	// When
 	actual, err := client.Release.Get(context.Background(), entityID)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestReleaseService_Get_NotFound(t *testing.T) {
@@ -270,8 +270,8 @@ func TestReleaseService_Get_NotFound(t *testing.T) {
 	// When
 	release, err := client.Release.Get(context.Background(), entityID)
 	// Then
-	require.NoError(t, err)
-	require.Nil(t, release)
+	assert.NilError(t, err)
+	assert.Assert(t, release == nil)
 }
 
 func TestReleaseService_GetWithQuery(t *testing.T) {
@@ -356,6 +356,6 @@ func TestReleaseService_GetWithQuery(t *testing.T) {
 	// When
 	actual, err := client.Release.GetWithQuery(context.Background(), "%24filter=key+eq+%27value%27")
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }

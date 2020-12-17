@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/einride/balena-go/odata"
-	"github.com/stretchr/testify/require"
+	"gotest.tools/v3/assert"
 )
 
 const (
@@ -138,8 +138,8 @@ func TestDeviceService_List_ID(t *testing.T) {
 	// When
 	actual, err := client.Device.List(context.Background())
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceService_ListByApplication(t *testing.T) {
@@ -208,8 +208,8 @@ func TestDeviceService_ListByApplication(t *testing.T) {
 	// When
 	actual, err := client.Device.ListByApplication(context.Background(), applicationID)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceService_Get_ID(t *testing.T) {
@@ -274,8 +274,8 @@ func TestDeviceService_Get_ID(t *testing.T) {
 	// When
 	actual, err := client.Device.Get(context.Background(), DeviceID(entityID))
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceService_Get_UUID(t *testing.T) {
@@ -342,8 +342,8 @@ func TestDeviceService_Get_UUID(t *testing.T) {
 	// When
 	actual, err := client.Device.Get(context.Background(), DeviceUUID(uuid))
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceService_Get_NotFound(t *testing.T) {
@@ -363,8 +363,8 @@ func TestDeviceService_Get_NotFound(t *testing.T) {
 	// When
 	device, err := client.Device.Get(context.Background(), DeviceUUID(uuid))
 	// Then
-	require.NoError(t, err)
-	require.Nil(t, device)
+	assert.NilError(t, err)
+	assert.Assert(t, device == nil)
 }
 
 func TestDeviceService_GetWithQuery(t *testing.T) {
@@ -432,8 +432,8 @@ func TestDeviceService_GetWithQuery(t *testing.T) {
 	// When
 	actual, err := client.Device.GetWithQuery(context.Background(), "%24filter=key+eq+%27value%27")
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestDeviceService_PinRelease_ID(t *testing.T) {
@@ -447,16 +447,16 @@ func TestDeviceService_PinRelease_ID(t *testing.T) {
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPatch)
 			b, err := ioutil.ReadAll(r.Body)
-			require.NoError(t, err)
-			require.Equal(t, `{"should_be_running__release":"14332"}`+"\n", string(b))
+			assert.NilError(t, err)
+			assert.Equal(t, `{"should_be_running__release":"14332"}`+"\n", string(b))
 			fmt.Fprint(w, "OK")
 		},
 	)
 	// When
 	resp, err := client.Device.PinRelease(context.Background(), DeviceID(entityID), releaseID)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, "OK", string(resp))
+	assert.NilError(t, err)
+	assert.Equal(t, "OK", string(resp))
 }
 
 func TestDeviceService_PinRelease_UUID(t *testing.T) {
@@ -475,16 +475,16 @@ func TestDeviceService_PinRelease_UUID(t *testing.T) {
 				return
 			}
 			b, err := ioutil.ReadAll(r.Body)
-			require.NoError(t, err)
-			require.Equal(t, `{"should_be_running__release":"14332"}`+"\n", string(b))
+			assert.NilError(t, err)
+			assert.Equal(t, `{"should_be_running__release":"14332"}`+"\n", string(b))
 			fmt.Fprint(w, "OK")
 		},
 	)
 	// When
 	resp, err := client.Device.PinRelease(context.Background(), DeviceUUID(uuid), releaseID)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, "OK", string(resp))
+	assert.NilError(t, err)
+	assert.Equal(t, "OK", string(resp))
 }
 
 func TestDeviceService_TrackLatestRelease_ID(t *testing.T) {
@@ -497,16 +497,16 @@ func TestDeviceService_TrackLatestRelease_ID(t *testing.T) {
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPatch)
 			b, err := ioutil.ReadAll(r.Body)
-			require.NoError(t, err)
-			require.Equal(t, `{"should_be_running__release":null}`+"\n", string(b))
+			assert.NilError(t, err)
+			assert.Equal(t, `{"should_be_running__release":null}`+"\n", string(b))
 			fmt.Fprint(w, "OK")
 		},
 	)
 	// When
 	resp, err := client.Device.TrackLatestRelease(context.Background(), DeviceID(entityID))
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, "OK", string(resp))
+	assert.NilError(t, err)
+	assert.Equal(t, "OK", string(resp))
 }
 
 func TestDeviceService_TrackLatestRelease_UUID(t *testing.T) {
@@ -524,14 +524,14 @@ func TestDeviceService_TrackLatestRelease_UUID(t *testing.T) {
 				return
 			}
 			b, err := ioutil.ReadAll(r.Body)
-			require.NoError(t, err)
-			require.Equal(t, `{"should_be_running__release":null}`+"\n", string(b))
+			assert.NilError(t, err)
+			assert.Equal(t, `{"should_be_running__release":null}`+"\n", string(b))
 			fmt.Fprint(w, "OK")
 		},
 	)
 	// When
 	resp, err := client.Device.TrackLatestRelease(context.Background(), DeviceUUID(uuid))
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, "OK", string(resp))
+	assert.NilError(t, err)
+	assert.Equal(t, "OK", string(resp))
 }

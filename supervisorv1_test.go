@@ -8,7 +8,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stretchr/testify/require"
+	"gotest.tools/v3/assert"
 )
 
 func TestSupervisorV1Service_Reboot_Cloud(t *testing.T) {
@@ -22,8 +22,8 @@ func TestSupervisorV1Service_Reboot_Cloud(t *testing.T) {
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
 			b, err := ioutil.ReadAll(r.Body)
-			require.NoError(t, err)
-			require.Equal(t,
+			assert.NilError(t, err)
+			assert.Equal(t,
 				`{"uuid":"00d859f123685e84772676f09465cc55","method":"POST","data":{"force":true}}`+"\n",
 				string(b),
 			)
@@ -33,7 +33,7 @@ func TestSupervisorV1Service_Reboot_Cloud(t *testing.T) {
 	// When
 	err := client.SupervisorV1(appID, deviceUUID).Reboot(context.Background(), true)
 	// Then
-	require.NoError(t, err)
+	assert.NilError(t, err)
 }
 
 func TestSupervisorV1Service_Reboot_CloudError(t *testing.T) {
@@ -47,8 +47,8 @@ func TestSupervisorV1Service_Reboot_CloudError(t *testing.T) {
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
 			b, err := ioutil.ReadAll(r.Body)
-			require.NoError(t, err)
-			require.Equal(t,
+			assert.NilError(t, err)
+			assert.Equal(t,
 				`{"uuid":"00d859f123685e84772676f09465cc55","method":"POST","data":{"force":true}}`+"\n",
 				string(b),
 			)
@@ -58,28 +58,28 @@ func TestSupervisorV1Service_Reboot_CloudError(t *testing.T) {
 	// When
 	err := client.SupervisorV1(appID, deviceUUID).Reboot(context.Background(), true)
 	// Then
-	require.Error(t, err)
-	require.Contains(t, err.Error(), "Something was bad")
+	assert.Assert(t, err != nil)
+	assert.ErrorContains(t, err, "Something was bad")
 }
 
 func TestSupervisorV1Service_Reboot_Local(t *testing.T) {
 	// Given
-	require.NoError(t, os.Setenv("BALENA_SUPERVISOR_API_KEY", "test"))
-	require.NoError(t, os.Setenv("BALENA_APP_ID", "1122334"))
-	require.NoError(t, os.Setenv("BALENA_DEVICE_UUID", "11223344556677"))
+	assert.NilError(t, os.Setenv("BALENA_SUPERVISOR_API_KEY", "test"))
+	assert.NilError(t, os.Setenv("BALENA_APP_ID", "1122334"))
+	assert.NilError(t, os.Setenv("BALENA_DEVICE_UUID", "11223344556677"))
 	client, mux := supervisorV1Fixture(t)
 	mux.HandleFunc(
 		"/v1/reboot",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
 			b, err := ioutil.ReadAll(r.Body)
-			require.NoError(t, err)
+			assert.NilError(t, err)
 			expected := "apikey=test"
 			if r.URL.RawQuery != expected {
 				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
 				return
 			}
-			require.Equal(t,
+			assert.Equal(t,
 				`{"force":true}`+"\n",
 				string(b),
 			)
@@ -89,5 +89,5 @@ func TestSupervisorV1Service_Reboot_Local(t *testing.T) {
 	// When
 	err := client.Reboot(context.Background(), true)
 	// Then
-	require.NoError(t, err)
+	assert.NilError(t, err)
 }

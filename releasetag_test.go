@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"github.com/einride/balena-go/odata"
-	"github.com/stretchr/testify/require"
+	"gotest.tools/v3/assert"
 )
 
 func TestReleaseTagService_List(t *testing.T) {
@@ -57,8 +57,8 @@ func TestReleaseTagService_List(t *testing.T) {
 	// When
 	actual, err := client.ReleaseTag.List(context.Background(), releaseID)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestReleaseTagService_ListByCommit(t *testing.T) {
@@ -107,8 +107,8 @@ func TestReleaseTagService_ListByCommit(t *testing.T) {
 	// When
 	actual, err := client.ReleaseTag.ListByCommit(context.Background(), releaseCommit)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
 
 func TestReleaseTagService_GetWithQuery(t *testing.T) {
@@ -158,6 +158,6 @@ func TestReleaseTagService_GetWithQuery(t *testing.T) {
 	query := "%24filter=release/commit+eq+%271309764%27"
 	actual, err := client.ReleaseTag.GetWithQuery(context.Background(), query)
 	// Then
-	require.NoError(t, err)
-	require.Equal(t, expected, actual)
+	assert.NilError(t, err)
+	assert.DeepEqual(t, expected, actual)
 }
