@@ -2,11 +2,11 @@ package balena
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/einride/balena-go/odata"
-	"golang.org/x/xerrors"
 )
 
 const deviceEnvVarBasePath = "v4/device_environment_variable"
@@ -29,7 +29,7 @@ func (s *DeviceEnvVarService) List(ctx context.Context, deviceID IDOrUUID) ([]*D
 	}
 	req, err := s.client.NewRequest(ctx, http.MethodGet, deviceEnvVarBasePath, query, nil)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to create request: %v", err)
+		return nil, fmt.Errorf("unable to create request: %v", err)
 	}
 	type Response struct {
 		D []*DeviceEnvVarResponse `json:"d,omitempty"`
@@ -37,7 +37,7 @@ func (s *DeviceEnvVarService) List(ctx context.Context, deviceID IDOrUUID) ([]*D
 	resp := &Response{}
 	err = s.client.Do(req, resp)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to perform request: %v", err)
+		return nil, fmt.Errorf("unable to perform request: %v", err)
 	}
 	return resp.D, nil
 }
@@ -69,12 +69,12 @@ func (s *DeviceEnvVarService) Create(
 		Value:    value,
 	})
 	if err != nil {
-		return nil, xerrors.Errorf("unable to create request: %v", err)
+		return nil, fmt.Errorf("unable to create request: %v", err)
 	}
 	resp := &DeviceEnvVarResponse{}
 	err = s.client.Do(req, resp)
 	if err != nil {
-		return nil, xerrors.Errorf("unable to perform request: %v", err)
+		return nil, fmt.Errorf("unable to perform request: %v", err)
 	}
 	return resp, nil
 }
@@ -90,11 +90,11 @@ func (s *DeviceEnvVarService) DeleteWithName(ctx context.Context, deviceID IDOrU
 	query = query + "+and+name+eq+%27" + name + "%27"
 	req, err := s.client.NewRequest(ctx, http.MethodDelete, deviceEnvVarBasePath, query, nil)
 	if err != nil {
-		return xerrors.Errorf("unable to create request: %v", err)
+		return fmt.Errorf("unable to create request: %v", err)
 	}
 	err = s.client.Do(req, nil)
 	if err != nil {
-		return xerrors.Errorf("unable to perform request: %v", err)
+		return fmt.Errorf("unable to perform request: %v", err)
 	}
 	return nil
 }

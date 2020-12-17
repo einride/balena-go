@@ -2,11 +2,11 @@ package balena
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/einride/balena-go/odata"
-	"golang.org/x/xerrors"
 )
 
 const releaseTagBasePath = "v5/release_tag"
@@ -41,7 +41,7 @@ func (s *ReleaseTagService) ListByCommit(ctx context.Context, commit string) ([]
 func (s *ReleaseTagService) GetWithQuery(ctx context.Context, query string) ([]*ReleaseTagResponse, error) {
 	req, err := s.client.NewRequest(ctx, http.MethodGet, releaseTagBasePath, query, nil)
 	if err != nil {
-		return nil, xerrors.Errorf("get release tag with query NewRequest: %v", err)
+		return nil, fmt.Errorf("get release tag with query NewRequest: %v", err)
 	}
 	type Response struct {
 		D []*ReleaseTagResponse `json:"d,omitempty"`
@@ -49,7 +49,7 @@ func (s *ReleaseTagService) GetWithQuery(ctx context.Context, query string) ([]*
 	resp := &Response{}
 	err = s.client.Do(req, resp)
 	if err != nil {
-		return nil, xerrors.Errorf("get release tag with query: %v", err)
+		return nil, fmt.Errorf("get release tag with query: %v", err)
 	}
 	return resp.D, nil
 }

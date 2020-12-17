@@ -3,11 +3,11 @@ package balena
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/einride/balena-go/odata"
-	"golang.org/x/xerrors"
 )
 
 const deviceTagBasePath = "v4/device_tag"
@@ -31,7 +31,7 @@ func (s *DeviceTagService) List(ctx context.Context, deviceID IDOrUUID) ([]*Devi
 	}
 	req, err := s.client.NewRequest(ctx, http.MethodGet, deviceTagBasePath, query, nil)
 	if err != nil {
-		return nil, xerrors.Errorf("list device tag NewRequest: %v", err)
+		return nil, fmt.Errorf("list device tag NewRequest: %v", err)
 	}
 	type Response struct {
 		D []*DeviceTagResponse `json:"d,omitempty"`
@@ -39,7 +39,7 @@ func (s *DeviceTagService) List(ctx context.Context, deviceID IDOrUUID) ([]*Devi
 	resp := &Response{}
 	err = s.client.Do(req, resp)
 	if err != nil {
-		return nil, xerrors.Errorf("list device tag: %v", err)
+		return nil, fmt.Errorf("list device tag: %v", err)
 	}
 	return resp.D, nil
 }
@@ -72,12 +72,12 @@ func (s *DeviceTagService) Create(
 		Value:    value,
 	})
 	if err != nil {
-		return nil, xerrors.Errorf("create device tag NewRequest: %v", err)
+		return nil, fmt.Errorf("create device tag NewRequest: %v", err)
 	}
 	resp := &DeviceTagResponse{}
 	err = s.client.Do(req, resp)
 	if err != nil {
-		return nil, xerrors.Errorf("create device tag: %v", err)
+		return nil, fmt.Errorf("create device tag: %v", err)
 	}
 	return resp, nil
 }
@@ -93,7 +93,7 @@ func (s *DeviceTagService) GetWithKey(ctx context.Context, deviceID IDOrUUID, ke
 	query = query + "+and+tag_key+eq+%27" + key + "%27"
 	req, err := s.client.NewRequest(ctx, http.MethodGet, deviceTagBasePath, query, nil)
 	if err != nil {
-		return nil, xerrors.Errorf("get device tag with key NewRequest: %v", err)
+		return nil, fmt.Errorf("get device tag with key NewRequest: %v", err)
 	}
 	type Response struct {
 		D []*DeviceTagResponse `json:"d,omitempty"`
@@ -101,10 +101,10 @@ func (s *DeviceTagService) GetWithKey(ctx context.Context, deviceID IDOrUUID, ke
 	resp := &Response{}
 	err = s.client.Do(req, resp)
 	if err != nil {
-		return nil, xerrors.Errorf("get device tag with key: %v", err)
+		return nil, fmt.Errorf("get device tag with key: %v", err)
 	}
 	if len(resp.D) > 1 {
-		return nil, xerrors.Errorf("expected 1 tag but got %d", len(resp.D))
+		return nil, fmt.Errorf("expected 1 tag but got %d", len(resp.D))
 	}
 
 	if len(resp.D) == 0 {
@@ -129,12 +129,12 @@ func (s *DeviceTagService) UpdateWithKey(ctx context.Context, deviceID IDOrUUID,
 		Value: value,
 	})
 	if err != nil {
-		return xerrors.Errorf("update device tag with key NewRequest: %v", err)
+		return fmt.Errorf("update device tag with key NewRequest: %v", err)
 	}
 	buf := &bytes.Buffer{}
 	err = s.client.Do(req, buf)
 	if err != nil {
-		return xerrors.Errorf("update device tag with key: %v", err)
+		return fmt.Errorf("update device tag with key: %v", err)
 	}
 	return nil
 }
@@ -150,12 +150,12 @@ func (s *DeviceTagService) DeleteWithKey(ctx context.Context, deviceID IDOrUUID,
 	query = query + "+and+tag_key+eq+%27" + key + "%27"
 	req, err := s.client.NewRequest(ctx, http.MethodDelete, deviceTagBasePath, query, nil)
 	if err != nil {
-		return xerrors.Errorf("delete device tag with key NewRequest: %v", err)
+		return fmt.Errorf("delete device tag with key NewRequest: %v", err)
 	}
 	buf := &bytes.Buffer{}
 	err = s.client.Do(req, buf)
 	if err != nil {
-		return xerrors.Errorf("delete device tag with key: %v", err)
+		return fmt.Errorf("delete device tag with key: %v", err)
 	}
 	return nil
 }
@@ -167,7 +167,7 @@ func (s *DeviceTagService) DeleteWithKey(ctx context.Context, deviceID IDOrUUID,
 func (s *DeviceTagService) GetWithQuery(ctx context.Context, query string) ([]*DeviceTagResponse, error) {
 	req, err := s.client.NewRequest(ctx, http.MethodGet, deviceTagBasePath, query, nil)
 	if err != nil {
-		return nil, xerrors.Errorf("get device tag with query NewRequest: %v", err)
+		return nil, fmt.Errorf("get device tag with query NewRequest: %v", err)
 	}
 	type Response struct {
 		D []*DeviceTagResponse `json:"d,omitempty"`
@@ -175,7 +175,7 @@ func (s *DeviceTagService) GetWithQuery(ctx context.Context, query string) ([]*D
 	resp := &Response{}
 	err = s.client.Do(req, resp)
 	if err != nil {
-		return nil, xerrors.Errorf("get device tag with query: %v", err)
+		return nil, fmt.Errorf("get device tag with query: %v", err)
 	}
 	return resp.D, nil
 }
