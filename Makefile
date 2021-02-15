@@ -26,7 +26,8 @@ go-build:
 
 .PHONY: go-test
 go-test:
-	go test -cover -race ./...
+	mkdir -p build/coverage
+	go test -coverprofile=build/coverage/$@.txt -covermode=atomic -race ./...
 
 .PHONY: go-mod-tidy
 go-mod-tidy:

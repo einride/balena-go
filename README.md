@@ -1,6 +1,7 @@
 # Balena Go
 
 [![PkgGoDev](https://pkg.go.dev/badge/go.einride.tech/balena)](https://pkg.go.dev/go.einride.tech/balena)
+[![codecov.io](https://codecov.io/github/einride/balena-go/coverage.svg?branch=master)](https://codecov.io/github/einride/balena-go?branch=master)
 
 <br />
 <img align="left" src="logo.svg" width="180" height="180">
