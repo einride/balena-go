@@ -105,6 +105,7 @@ func newFixture() (*Client, *http.ServeMux, func()) {
 // BALENA_APP_ID
 // BALENA_DEVICE_UUID.
 func supervisorV2Fixture(t *testing.T) (*SupervisorV2Service, *http.ServeMux) {
+	t.Helper()
 	mux := http.NewServeMux()
 	server := httptest.NewServer(mux)
 	client, err := NewSupervisorV2(nil)
@@ -124,6 +125,7 @@ func supervisorV2Fixture(t *testing.T) (*SupervisorV2Service, *http.ServeMux) {
 // BALENA_APP_ID
 // BALENA_DEVICE_UUID.
 func supervisorV1Fixture(t *testing.T) (*SupervisorV1Service, *http.ServeMux) {
+	t.Helper()
 	mux := http.NewServeMux()
 	server := httptest.NewServer(mux)
 	client, err := NewSupervisorV1(nil)
@@ -137,6 +139,7 @@ func supervisorV1Fixture(t *testing.T) (*SupervisorV1Service, *http.ServeMux) {
 }
 
 func testMethod(t *testing.T, r *http.Request, expected string) {
+	t.Helper()
 	if expected != r.Method {
 		t.Errorf("Request method = %v, expected %v", r.Method, expected)
 	}

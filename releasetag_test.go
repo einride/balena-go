@@ -38,7 +38,7 @@ func TestReleaseTagService_List(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=release/id+eq+%27" + strconv.FormatInt(releaseID, 10) + "%27"
 		if r.URL.RawQuery != expected {
-			fmt.Printf("query = %s ; expected = %s\n", r.URL.RawQuery, expected)
+			t.Logf("query = %s ; expected = %s\n", r.URL.RawQuery, expected)
 			http.Error(w, fmt.Sprintf("query = %s ; expected = %s\n", r.URL.RawQuery, expected), 500)
 		}
 		fmt.Fprint(w, jsonResp)
@@ -88,7 +88,7 @@ func TestReleaseTagService_ListByCommit(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=release/commit+eq+%27" + releaseCommit + "%27"
 		if r.URL.RawQuery != expected {
-			fmt.Printf("query = %s ; expected = %s\n", r.URL.RawQuery, expected)
+			t.Logf("query = %s ; expected = %s\n", r.URL.RawQuery, expected)
 			http.Error(w, fmt.Sprintf("query = %s ; expected = %s\n", r.URL.RawQuery, expected), 500)
 		}
 		fmt.Fprint(w, jsonResp)
@@ -138,7 +138,7 @@ func TestReleaseTagService_GetWithQuery(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=release/commit+eq+%27" + strconv.FormatInt(releaseID, 10) + "%27"
 		if r.URL.RawQuery != expected {
-			fmt.Printf("query = %s ; expected = %s\n", r.URL.RawQuery, expected)
+			t.Logf("query = %s ; expected = %s\n", r.URL.RawQuery, expected)
 			http.Error(w, fmt.Sprintf("query = %s ; expected = %s\n", r.URL.RawQuery, expected), 500)
 		}
 		fmt.Fprint(w, jsonResp)

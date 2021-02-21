@@ -40,7 +40,7 @@ func TestDeviceTagService_List_ID(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=device/id+eq+%27" + strconv.FormatInt(deviceID, 10) + "%27"
 		if r.URL.RawQuery != expected {
-			fmt.Printf("query = %s ; expected %s\n", r.URL.RawQuery, expected)
+			t.Logf("query = %s ; expected %s\n", r.URL.RawQuery, expected)
 			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
 			return
 		}
