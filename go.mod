@@ -1,4 +1,4 @@
-module go.einride.tech/balena
+module Hibersense/balena-go
 
 go 1.14
 
