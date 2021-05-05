@@ -1,4 +1,4 @@
-module Hibersense/balena-go
+module github.com/Hibersense/balena-go
 
 go 1.14
 
