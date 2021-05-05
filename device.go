@@ -61,6 +61,7 @@ type DeviceResponse struct {
 	LogsChannel                interface{}   `json:"logs_channel,omitempty"`
 	IsLockedUntil              interface{}   `json:"is_locked_until__date,omitempty"`
 	IsAccessibleBySupportUntil interface{}   `json:"is_accessible_by_support_until__date,omitempty"`
+	MACAddress                 interface{}   `json:"mac_address,omitempty"`
 }
 
 // List returns a list of all devices.
