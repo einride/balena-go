@@ -11,19 +11,28 @@ import (
 	"go.einride.tech/balena/odata"
 )
 
-const deviceBasePath = "v4/device"
+const deviceBasePath = "v6/device"
 
 // DeviceService handles communication with the device related methods of the
 // Balena Cloud API.
 type DeviceService service
 
 type DeviceResponse struct {
-	ID         int64  `json:"id,omitempty"`
-	Actor      int64  `json:"actor,omitempty"`
-	Name       string `json:"device_name,omitempty"`
-	DeviceType string `json:"device_type,omitempty"`
-	UUID       string `json:"uuid,omitempty"`
-	OnCommit   string `json:"is_on__commit,omitempty"`
+	ID               int64  `json:"id,omitempty"`
+	Actor            int64  `json:"actor,omitempty"`
+	MemoryUsage      int64  `json:"memory_usage,omitempty"`
+	MemoryTotal      int64  `json:"memory_total,omitempty"`
+	StorageUsage     int64  `json:"storage_usage,omitempty"`
+	StorageTotal     int64  `json:"storage_total,omitempty"`
+	CPUTemp          int64  `json:"cpu_temp,omitempty"`
+	CPUUsage         int64  `json:"cpu_usage,omitempty"`
+	IsOnline         bool   `json:"is_online,omitempty"`
+	IsConnectedToVPN bool   `json:"is_connected_to_vpn,omitempty"`
+	IsWebAccessible  bool   `json:"is_web_accessible,omitempty"`
+	IsActive         bool   `json:"is_active,omitempty"`
+	IsUndervolted    bool   `json:"is_undervolted,omitempty"`
+	DeviceName       string `json:"device_name,omitempty"`
+	UUID             string `json:"uuid,omitempty"`
 	// TODO: Change to time.Time maybe?
 	LastConnectivityEvent string `json:"last_connectivity_event,omitempty"`
 	Status                string `json:"status,omitempty"`
@@ -33,34 +42,36 @@ type DeviceResponse struct {
 	// TODO: Should we change to net.IP maybe?
 	VPNAddress string `json:"vpn_address,omitempty"`
 	// TODO: Should we change to net.IP maybe?
-	PublicAddress              string        `json:"public_address,omitempty"`
-	OSVersion                  string        `json:"os_version,omitempty"`
-	OSVariant                  string        `json:"os_variant,omitempty"`
-	SupervisorVersion          string        `json:"supervisor_version,omitempty"`
-	ProvisioningState          string        `json:"provisioning_state,omitempty"`
-	Longitude                  string        `json:"longitude,omitempty"`
-	Latitude                   string        `json:"latitude,omitempty"`
-	Location                   string        `json:"location,omitempty"`
-	CustomLongitude            string        `json:"custom_longitude,omitempty"`
-	CustomLatitude             string        `json:"custom_latitude,omitempty"`
-	CreatedAt                  string        `json:"created_at,omitempty"`
-	IsOnline                   bool          `json:"is_online,omitempty"`
-	IsConnectedToVPN           bool          `json:"is_connected_to_vpn,omitempty"`
-	IsWebAccessible            bool          `json:"is_web_accessible,omitempty"`
-	IsActive                   bool          `json:"is_active,omitempty"`
-	BelongsToApplication       odata.Object  `json:"belongs_to__application,omitempty"`
-	BelongsToUser              odata.Object  `json:"belongs_to__user,omitempty"`
-	IsManagedByServiceInstance odata.Object  `json:"is_managed_by__service_instance,omitempty"`
-	IsManagedByDevice          interface{}   `json:"is_managed_by__device,omitempty"`
-	ShouldBeRunningRelease     *odata.Object `json:"should_be_running__release,omitempty"`
-	Note                       interface{}   `json:"note,omitempty"`
-	LocalID                    interface{}   `json:"local_id,omitempty"`
-	ManagedBySupervisorRelease interface{}   `json:"should_be_managed_by__supervisor_release,omitempty"`
-	ProvisioningProgress       interface{}   `json:"provisioning_progress,omitempty"`
-	DownloadProgress           interface{}   `json:"download_progress,omitempty"`
-	LogsChannel                interface{}   `json:"logs_channel,omitempty"`
-	IsLockedUntil              interface{}   `json:"is_locked_until__date,omitempty"`
-	IsAccessibleBySupportUntil interface{}   `json:"is_accessible_by_support_until__date,omitempty"`
+	CPUID                              string        `json:"cpu_id,omitempty"`
+	StorageBlockDevice                 string        `json:"storage_block_device,omitempty"`
+	PublicAddress                      string        `json:"public_address,omitempty"`
+	MACAddress                         string        `json:"mac_address,omitempty"`
+	APIHeartbeatState                  string        `json:"api_heartbeat_state,omitempty"`
+	OSVersion                          string        `json:"os_version,omitempty"`
+	OSVariant                          string        `json:"os_variant,omitempty"`
+	SupervisorVersion                  string        `json:"supervisor_version,omitempty"`
+	ProvisioningState                  string        `json:"provisioning_state,omitempty"`
+	Longitude                          string        `json:"longitude,omitempty"`
+	Latitude                           string        `json:"latitude,omitempty"`
+	Location                           string        `json:"location,omitempty"`
+	CustomLongitude                    string        `json:"custom_longitude,omitempty"`
+	CustomLatitude                     string        `json:"custom_latitude,omitempty"`
+	CreatedAt                          string        `json:"created_at,omitempty"`
+	DeviceType                         *odata.Object `json:"device_type,omitempty"`
+	BelongsToApplication               *odata.Object `json:"belongs_to__application,omitempty"`
+	BelongsToUser                      *odata.Object `json:"belongs_to__user,omitempty"`
+	IsManagedByServiceInstance         *odata.Object `json:"is_managed_by__service_instance,omitempty"`
+	IsManagedByDevice                  interface{}   `json:"is_managed_by__device,omitempty"`
+	IsRunningRelease                   *odata.Object `json:"is_running__release,omitempty"`
+	ShouldBeRunningRelease             *odata.Object `json:"should_be_running__release,omitempty"`
+	ShouldBeManagedBySupervisorRelease *odata.Object `json:"should_be_managed_by__supervisor_release,omitempty"`
+	Note                               interface{}   `json:"note,omitempty"`
+	LocalID                            interface{}   `json:"local_id,omitempty"`
+	ProvisioningProgress               interface{}   `json:"provisioning_progress,omitempty"`
+	DownloadProgress                   interface{}   `json:"download_progress,omitempty"`
+	LogsChannel                        interface{}   `json:"logs_channel,omitempty"`
+	IsLockedUntil                      interface{}   `json:"is_locked_until__date,omitempty"`
+	IsAccessibleBySupportUntil         interface{}   `json:"is_accessible_by_support_until__date,omitempty"`
 }
 
 // List returns a list of all devices.
