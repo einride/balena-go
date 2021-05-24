@@ -11,7 +11,7 @@ import (
 	"go.einride.tech/balena/odata"
 )
 
-const releaseBasePath = "v4/release"
+const releaseBasePath = "v6/release"
 
 // ReleaseService handles communication with the release related methods of the
 // Balena Cloud API.
@@ -19,16 +19,22 @@ type ReleaseService service
 
 type ReleaseResponse struct {
 	ID                   int64           `json:"id,omitempty"`
+	IsInvalidated        bool            `json:"is_invalidated,omitempty"`
+	IsPassingTests       bool            `json:"is_passing_tests,omitempty"`
+	ReleaseType          string          `json:"release_type,omitempty"`
+	Contract             string          `json:"contract,omitempty"`
 	CreatedAt            string          `json:"created_at,omitempty"`
-	BelongsToApplication odata.Object    `json:"belongs_to__application,omitempty"`
-	CreatedByUser        odata.Object    `json:"is_created_by__user,omitempty"`
-	Composition          json.RawMessage `json:"composition,omitempty"`
 	Commit               string          `json:"commit,omitempty"`
 	Status               string          `json:"status,omitempty"`
 	Source               string          `json:"source,omitempty"`
 	StartTimestamp       string          `json:"start_timestamp,omitempty"`
 	EndTimestamp         string          `json:"end_timestamp,omitempty"`
 	UpdateTimestamp      string          `json:"update_timestamp,omitempty"`
+	BuildLog             string          `json:"build_log,omitempty"`
+	BelongsToApplication *odata.Object   `json:"belongs_to__application,omitempty"`
+	CreatedByUser        *odata.Object   `json:"is_created_by__user,omitempty"`
+	ReleaseVersion       interface{}     `json:"release_version,omitempty"`
+	Composition          json.RawMessage `json:"composition,omitempty"`
 }
 
 // List lists all releases.
