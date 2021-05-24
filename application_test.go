@@ -16,31 +16,46 @@ const (
 	applicationListResponse = `{
 	"d": [
 		{
-			"id": 1514287,
-			"user": {
-				"__deferred": {
-					"uri": "/resin/user(123437)"
-				},
-				"__id": 123437
-			},
-			"depends_on__application": null,
-			"actor": 4085719,
-			"app_name": "dev-device",
-			"slug": "gh_alethenorio/dev-device",
-			"commit": "0dfe13d62efb4325385952e1e15361f7",
-			"application_type": {
-				"__deferred": {
-					"uri": "/resin/application_type(5)"
-				},
-				"__id": 5
-			},
-			"device_type": "intel-nuc",
-			"should_track_latest_release": true,
-			"is_accessible_by_support_until__date": null,
-			"__metadata": {
-				"uri": "/resin/application(@id)?@id=1514287"
-			}
-		}
+    	  "id": 1234567,
+    	  "organization": {
+    	    "__id": 122333,
+    	    "__deferred": {
+    	      "uri": "/resin/organization(@id)?@id=122333"
+    	    }
+    	  },
+    	  "depends_on__application": null,
+    	  "actor": 700068,
+    	  "app_name": "Stellarium",
+    	  "slug": "david_tischler1/stellarium",
+    	  "should_be_running__release": {
+    	    "__id": 1798244,
+    	    "__deferred": {
+    	      "uri": "/resin/release(@id)?@id=1798244"
+    	    }
+    	  },
+    	  "application_type": {
+    	    "__id": 4,
+    	    "__deferred": {
+    	      "uri": "/resin/application_type(@id)?@id=4"
+    	    }
+    	  },
+    	  "is_for__device_type": {
+    	    "__id": 60,
+    	    "__deferred": {
+    	      "uri": "/resin/device_type(@id)?@id=60"
+    	    }
+    	  },
+    	  "should_track_latest_release": true,
+    	  "is_accessible_by_support_until__date": null,
+    	  "is_public": true,
+    	  "is_host": false,
+    	  "is_archived": false,
+    	  "is_discoverable": true,
+    	  "is_stored_at__repository_url": "https://github.com/balenalabs-incubator/stellarium",
+    	  "created_at": "2020-12-08T21:02:03.327Z",
+    	  "uuid": "fc02cb0c1f174d10811303446cde8aae",
+    	  "is_of__class": "fleet"
+    	}
 	]
 }`
 )
@@ -55,17 +70,29 @@ func TestApplicationService_List(t *testing.T) {
 	})
 	expected := []*ApplicationsResponse{
 		{
-			ID:                         1514287,
-			User:                       odata.Object{Deferred: odata.Deferred{URI: "/resin/user(123437)"}, ID: 123437},
-			DependsOnApplication:       nil,
-			Actor:                      4085719,
-			Name:                       "dev-device",
-			Slug:                       "gh_alethenorio/dev-device",
-			Commit:                     "0dfe13d62efb4325385952e1e15361f7",
-			ApplicationType:            odata.Object{Deferred: odata.Deferred{URI: "/resin/application_type(5)"}, ID: 5},
-			DeviceType:                 "intel-nuc",
-			TrackLatestRelease:         true,
-			IsAccessibleBySupportUntil: nil,
+			ID:   1234567,
+			UUID: "fc02cb0c1f174d10811303446cde8aae",
+			Organization: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/organization(@id)?@id=122333"}, ID: 122333,
+			},
+			DependsOnApplication: nil,
+			Actor:                700068,
+			AppName:              "Stellarium",
+			Slug:                 "david_tischler1/stellarium",
+			ShouldBeRunningRelease: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
+			},
+			IsForDeviceType: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=60"}, ID: 60,
+			},
+			ShouldTrackLatestRelease:       true,
+			IsAccessibleBySupportUntilDate: nil,
+			IsPublic:                       true,
+			IsHost:                         false,
+			IsArchived:                     false,
+			IsDiscoverable:                 true,
+			IsStoredAtRepositoryURL:        "https://github.com/balenalabs-incubator/stellarium",
+			CreatedAt:                      "2020-12-08T21:02:03.327Z",
 		},
 	}
 	// When
@@ -93,17 +120,29 @@ func TestApplicationService_GetWithQuery(t *testing.T) {
 	)
 	expected := []*ApplicationsResponse{
 		{
-			ID:                         1514287,
-			User:                       odata.Object{Deferred: odata.Deferred{URI: "/resin/user(123437)"}, ID: 123437},
-			DependsOnApplication:       nil,
-			Actor:                      4085719,
-			Name:                       "dev-device",
-			Slug:                       "gh_alethenorio/dev-device",
-			Commit:                     "0dfe13d62efb4325385952e1e15361f7",
-			ApplicationType:            odata.Object{Deferred: odata.Deferred{URI: "/resin/application_type(5)"}, ID: 5},
-			DeviceType:                 "intel-nuc",
-			TrackLatestRelease:         true,
-			IsAccessibleBySupportUntil: nil,
+			ID:   1234567,
+			UUID: "fc02cb0c1f174d10811303446cde8aae",
+			Organization: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/organization(@id)?@id=122333"}, ID: 122333,
+			},
+			DependsOnApplication: nil,
+			Actor:                700068,
+			AppName:              "Stellarium",
+			Slug:                 "david_tischler1/stellarium",
+			ShouldBeRunningRelease: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
+			},
+			IsForDeviceType: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=60"}, ID: 60,
+			},
+			ShouldTrackLatestRelease:       true,
+			IsAccessibleBySupportUntilDate: nil,
+			IsPublic:                       true,
+			IsHost:                         false,
+			IsArchived:                     false,
+			IsDiscoverable:                 true,
+			IsStoredAtRepositoryURL:        "https://github.com/balenalabs-incubator/stellarium",
+			CreatedAt:                      "2020-12-08T21:02:03.327Z",
 		},
 	}
 	// When
@@ -126,17 +165,29 @@ func TestApplicationService_Get(t *testing.T) {
 		},
 	)
 	expected := &ApplicationsResponse{
-		ID:                         1514287,
-		User:                       odata.Object{Deferred: odata.Deferred{URI: "/resin/user(123437)"}, ID: 123437},
-		DependsOnApplication:       nil,
-		Actor:                      4085719,
-		Name:                       "dev-device",
-		Slug:                       "gh_alethenorio/dev-device",
-		Commit:                     "0dfe13d62efb4325385952e1e15361f7",
-		ApplicationType:            odata.Object{Deferred: odata.Deferred{URI: "/resin/application_type(5)"}, ID: 5},
-		DeviceType:                 "intel-nuc",
-		TrackLatestRelease:         true,
-		IsAccessibleBySupportUntil: nil,
+		ID:   1234567,
+		UUID: "fc02cb0c1f174d10811303446cde8aae",
+		Organization: &odata.Object{
+			Deferred: odata.Deferred{URI: "/resin/organization(@id)?@id=122333"}, ID: 122333,
+		},
+		DependsOnApplication: nil,
+		Actor:                700068,
+		AppName:              "Stellarium",
+		Slug:                 "david_tischler1/stellarium",
+		ShouldBeRunningRelease: &odata.Object{
+			Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
+		},
+		IsForDeviceType: &odata.Object{
+			Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=60"}, ID: 60,
+		},
+		ShouldTrackLatestRelease:       true,
+		IsAccessibleBySupportUntilDate: nil,
+		IsPublic:                       true,
+		IsHost:                         false,
+		IsArchived:                     false,
+		IsDiscoverable:                 true,
+		IsStoredAtRepositoryURL:        "https://github.com/balenalabs-incubator/stellarium",
+		CreatedAt:                      "2020-12-08T21:02:03.327Z",
 	}
 	// When
 	actual, err := client.Application.Get(context.Background(), entityID)
@@ -182,17 +233,29 @@ func TestApplicationService_GetByName(t *testing.T) {
 		},
 	)
 	expected := &ApplicationsResponse{
-		ID:                         1514287,
-		User:                       odata.Object{Deferred: odata.Deferred{URI: "/resin/user(123437)"}, ID: 123437},
-		DependsOnApplication:       nil,
-		Actor:                      4085719,
-		Name:                       "dev-device",
-		Slug:                       "gh_alethenorio/dev-device",
-		Commit:                     "0dfe13d62efb4325385952e1e15361f7",
-		ApplicationType:            odata.Object{Deferred: odata.Deferred{URI: "/resin/application_type(5)"}, ID: 5},
-		DeviceType:                 "intel-nuc",
-		TrackLatestRelease:         true,
-		IsAccessibleBySupportUntil: nil,
+		ID:   1234567,
+		UUID: "fc02cb0c1f174d10811303446cde8aae",
+		Organization: &odata.Object{
+			Deferred: odata.Deferred{URI: "/resin/organization(@id)?@id=122333"}, ID: 122333,
+		},
+		DependsOnApplication: nil,
+		Actor:                700068,
+		AppName:              "Stellarium",
+		Slug:                 "david_tischler1/stellarium",
+		ShouldBeRunningRelease: &odata.Object{
+			Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
+		},
+		IsForDeviceType: &odata.Object{
+			Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=60"}, ID: 60,
+		},
+		ShouldTrackLatestRelease:       true,
+		IsAccessibleBySupportUntilDate: nil,
+		IsPublic:                       true,
+		IsHost:                         false,
+		IsArchived:                     false,
+		IsDiscoverable:                 true,
+		IsStoredAtRepositoryURL:        "https://github.com/balenalabs-incubator/stellarium",
+		CreatedAt:                      "2020-12-08T21:02:03.327Z",
 	}
 	// When
 	actual, err := client.Application.GetByName(context.Background(), entityName)
