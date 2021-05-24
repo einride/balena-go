@@ -11,24 +11,30 @@ import (
 	"go.einride.tech/balena/odata"
 )
 
-const applicationBasePath = "v4/application"
+const applicationBasePath = "v6/application"
 
 // ApplicationService handles communication with the application related methods of the
 // Balena Cloud API.
 type ApplicationService service
 
 type ApplicationsResponse struct {
-	ID                         int64        `json:"id,omitempty"`
-	User                       odata.Object `json:"user,omitempty"`
-	DependsOnApplication       interface{}  `json:"depends_on__application,omitempty"`
-	Actor                      int64        `json:"actor,omitempty"`
-	Name                       string       `json:"app_name,omitempty"`
-	Slug                       string       `json:"slug,omitempty"`
-	Commit                     string       `json:"commit,omitempty"`
-	ApplicationType            odata.Object `json:"application_type,omitempty"`
-	DeviceType                 string       `json:"device_type,omitempty"`
-	TrackLatestRelease         bool         `json:"should_track_latest_release,omitempty"`
-	IsAccessibleBySupportUntil interface{}  `json:"is_accessible_by_support_until__date,omitempty"`
+	ID                             int64         `json:"id,omitempty"`
+	ShouldTrackLatestRelease       bool          `json:"should_track_latest_release,omitempty"`
+	IsPublic                       bool          `json:"is_public,omitempty"`
+	IsHost                         bool          `json:"is_host,omitempty"`
+	IsArchived                     bool          `json:"is_archived,omitempty"`
+	IsDiscoverable                 bool          `json:"is_discoverable,omitempty"`
+	UUID                           string        `json:"uuid,omitempty"`
+	IsStoredAtRepositoryURL        string        `json:"is_stored_at__repository_url,omitempty"`
+	CreatedAt                      string        `json:"created_at,omitempty"`
+	AppName                        string        `json:"app_name,omitempty"`
+	Actor                          int64         `json:"actor,omitempty"`
+	Slug                           string        `json:"slug,omitempty"`
+	Organization                   *odata.Object `json:"organization,omitempty"`
+	ShouldBeRunningRelease         *odata.Object `json:"should_be_running__release,omitempty"`
+	IsForDeviceType                *odata.Object `json:"is_for__device_type,omitempty"`
+	DependsOnApplication           interface{}   `json:"depends_on__application,omitempty"`
+	IsAccessibleBySupportUntilDate interface{}   `json:"is_accessible_by_support_until__date,omitempty"`
 }
 
 func (s *ApplicationService) List(ctx context.Context) ([]*ApplicationsResponse, error) {
