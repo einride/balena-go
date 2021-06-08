@@ -30,12 +30,13 @@ type Client struct {
 	common service // Reuse a single struct instead of allocating one for each service on the heap.
 
 	// Services used for talking to different parts of the Balena API
-	Application  *ApplicationService
-	Device       *DeviceService
-	Release      *ReleaseService
-	ReleaseTag   *ReleaseTagService
-	DeviceEnvVar *DeviceEnvVarService
-	DeviceTag    *DeviceTagService
+	Application   *ApplicationService
+	Device        *DeviceService
+	Release       *ReleaseService
+	ReleaseTag    *ReleaseTagService
+	DeviceEnvVar  *DeviceEnvVarService
+	DeviceServVar *DeviceServVarService
+	DeviceTag     *DeviceTagService
 }
 
 type service struct {
@@ -65,6 +66,7 @@ func New(httpClient *http.Client, authToken string) *Client {
 	c.Device = (*DeviceService)(&c.common)
 	c.Release = (*ReleaseService)(&c.common)
 	c.DeviceEnvVar = (*DeviceEnvVarService)(&c.common)
+	c.DeviceServVar = (*DeviceServVarService)(&c.common)
 	c.DeviceTag = (*DeviceTagService)(&c.common)
 	c.ReleaseTag = (*ReleaseTagService)(&c.common)
 	return c
