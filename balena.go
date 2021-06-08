@@ -36,6 +36,7 @@ type Client struct {
 	ReleaseTag    *ReleaseTagService
 	DeviceEnvVar  *DeviceEnvVarService
 	DeviceServVar *DeviceServVarService
+	DeviceConfVar *DeviceConfVarService
 	DeviceTag     *DeviceTagService
 }
 
@@ -67,6 +68,7 @@ func New(httpClient *http.Client, authToken string) *Client {
 	c.Release = (*ReleaseService)(&c.common)
 	c.DeviceEnvVar = (*DeviceEnvVarService)(&c.common)
 	c.DeviceServVar = (*DeviceServVarService)(&c.common)
+	c.DeviceConfVar = (*DeviceConfVarService)(&c.common)
 	c.DeviceTag = (*DeviceTagService)(&c.common)
 	c.ReleaseTag = (*ReleaseTagService)(&c.common)
 	return c
