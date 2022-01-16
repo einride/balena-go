@@ -3,7 +3,7 @@
 [![PkgGoDev](https://pkg.go.dev/badge/go.einride.tech/balena)](https://pkg.go.dev/go.einride.tech/balena)
 
 <br />
-<img align="left" src="logo.svg" width="180" height="180">
+<img align="left" src="docs/logo.svg" width="180" height="180">
 <br />
 <br />
 
