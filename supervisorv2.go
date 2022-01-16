@@ -105,7 +105,8 @@ type CloudRequest struct {
 
 func (s *SupervisorV2Service) newRequest(
 	ctx context.Context,
-	method, urlStr string,
+	method string,
+	urlStr string,
 	body interface{},
 ) (*http.Request, error) {
 	u := urlStr
