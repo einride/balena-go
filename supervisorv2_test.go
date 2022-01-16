@@ -23,7 +23,8 @@ func TestSupervisorV2Service_RestartServiceByName_Cloud(t *testing.T) {
 			testMethod(t, r, http.MethodPost)
 			b, err := ioutil.ReadAll(r.Body)
 			assert.NilError(t, err)
-			assert.Equal(t,
+			assert.Equal(
+				t,
 				`{"uuid":"00d859f123685e84772676f09465cc55","method":"POST","data":{"serviceName":"testsvc"}}`+"\n",
 				string(b),
 			)
@@ -75,7 +76,8 @@ func TestSupervisorV2Service_StopServiceByName_Cloud(t *testing.T) {
 			testMethod(t, r, http.MethodPost)
 			b, err := ioutil.ReadAll(r.Body)
 			assert.NilError(t, err)
-			assert.Equal(t,
+			assert.Equal(
+				t,
 				`{"uuid":"00d859f123685e84772676f09465cc55","method":"POST","data":{"serviceName":"testsvc"}}`+"\n",
 				string(b),
 			)

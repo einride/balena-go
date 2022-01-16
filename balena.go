@@ -45,14 +45,19 @@ type service struct {
 }
 
 // An ErrorResponse reports the error caused by an API request.
+// nolint: errname // TODO: Consider breaking change to follow XxxError naming convention.
 type ErrorResponse struct {
 	// HTTP response that caused this error
 	Response *http.Response
 }
 
 func (r *ErrorResponse) Error() string {
-	return fmt.Sprintf("%v %v: %d",
-		r.Response.Request.Method, r.Response.Request.URL, r.Response.StatusCode)
+	return fmt.Sprintf(
+		"%v %v: %d",
+		r.Response.Request.Method,
+		r.Response.Request.URL,
+		r.Response.StatusCode,
+	)
 }
 
 // New returns a new Balena API client.
@@ -99,15 +104,15 @@ func NewSupervisorV2(httpClient *http.Client) (*SupervisorV2Service, error) {
 	}
 	key := os.Getenv("BALENA_SUPERVISOR_API_KEY")
 	if key == "" {
-		return nil, fmt.Errorf("unable to retrieve supervisor API key. BALENA_SUPERVISOR_API_KEY not set?")
+		return nil, fmt.Errorf("unable to retrieve supervisor API key. BALENA_SUPERVISOR_API_KEY not set")
 	}
 	uuid := os.Getenv("BALENA_DEVICE_UUID")
 	if uuid == "" {
-		return nil, fmt.Errorf("unable to retrieve supervisor API key. BALENA_DEVICE_UUID not set?")
+		return nil, fmt.Errorf("unable to retrieve supervisor API key. BALENA_DEVICE_UUID not set")
 	}
 	appID := os.Getenv("BALENA_APP_ID")
 	if appID == "" {
-		return nil, fmt.Errorf("unable to retrieve balena application ID. BALENA_APP_ID not set?")
+		return nil, fmt.Errorf("unable to retrieve balena application ID. BALENA_APP_ID not set")
 	}
 	c := Client{client: httpClient, BaseURL: baseURL, UserAgent: userAgent}
 	svc := service{
@@ -148,15 +153,15 @@ func NewSupervisorV1(httpClient *http.Client) (*SupervisorV1Service, error) {
 	}
 	key := os.Getenv("BALENA_SUPERVISOR_API_KEY")
 	if key == "" {
-		return nil, fmt.Errorf("unable to retrieve supervisor API key. BALENA_SUPERVISOR_API_KEY not set?")
+		return nil, fmt.Errorf("unable to retrieve supervisor API key. BALENA_SUPERVISOR_API_KEY not set")
 	}
 	uuid := os.Getenv("BALENA_DEVICE_UUID")
 	if uuid == "" {
-		return nil, fmt.Errorf("unable to retrieve supervisor API key. BALENA_DEVICE_UUID not set?")
+		return nil, fmt.Errorf("unable to retrieve supervisor API key. BALENA_DEVICE_UUID not set")
 	}
 	appID := os.Getenv("BALENA_APP_ID")
 	if appID == "" {
-		return nil, fmt.Errorf("unable to retrieve balena application ID. BALENA_APP_ID not set?")
+		return nil, fmt.Errorf("unable to retrieve balena application ID. BALENA_APP_ID not set")
 	}
 	c := Client{client: httpClient, BaseURL: baseURL, UserAgent: userAgent}
 	svc := service{
@@ -178,7 +183,9 @@ func NewSupervisorV1(httpClient *http.Client) (*SupervisorV1Service, error) {
 // A raw query string can be specified by rawQuery.
 func (c *Client) NewRequest(
 	ctx context.Context,
-	method, urlStr, rawQuery string,
+	method string,
+	urlStr string,
+	rawQuery string,
 	body interface{},
 ) (*http.Request, error) {
 	if !strings.HasSuffix(c.BaseURL.Path, "/") {

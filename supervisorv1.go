@@ -47,7 +47,8 @@ func (s *SupervisorV1Service) Reboot(ctx context.Context, force bool) error {
 
 func (s *SupervisorV1Service) newRequest(
 	ctx context.Context,
-	method, urlStr string,
+	method string,
+	urlStr string,
 	body interface{},
 ) (*http.Request, error) {
 	u := urlStr

@@ -115,7 +115,7 @@ func (s *DeviceTagService) GetWithKey(ctx context.Context, deviceID IDOrUUID, ke
 
 // UpdateWithKey updates the value of a device tag matching the given key and device ID/UUID.
 // No error is returned if the key or device does not exist.
-func (s *DeviceTagService) UpdateWithKey(ctx context.Context, deviceID IDOrUUID, key string, value string) error {
+func (s *DeviceTagService) UpdateWithKey(ctx context.Context, deviceID IDOrUUID, key, value string) error {
 	// Get the variable ID
 	query := "%24filter=device/id+eq+%27" + deviceID.id + "%27"
 	if deviceID.isUUID {

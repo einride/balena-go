@@ -1,7 +1,7 @@
 package odata
 
 // EntityURL returns an OData entity ID URL given a base URL and an entity ID.
-func EntityURL(base string, id string) string {
+func EntityURL(base, id string) string {
 	return base + "(" + id + ")"
 }
 

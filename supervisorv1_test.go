@@ -23,7 +23,8 @@ func TestSupervisorV1Service_Reboot_Cloud(t *testing.T) {
 			testMethod(t, r, http.MethodPost)
 			b, err := ioutil.ReadAll(r.Body)
 			assert.NilError(t, err)
-			assert.Equal(t,
+			assert.Equal(
+				t,
 				`{"uuid":"00d859f123685e84772676f09465cc55","method":"POST","data":{"force":true}}`+"\n",
 				string(b),
 			)
@@ -48,7 +49,8 @@ func TestSupervisorV1Service_Reboot_CloudError(t *testing.T) {
 			testMethod(t, r, http.MethodPost)
 			b, err := ioutil.ReadAll(r.Body)
 			assert.NilError(t, err)
-			assert.Equal(t,
+			assert.Equal(
+				t,
 				`{"uuid":"00d859f123685e84772676f09465cc55","method":"POST","data":{"force":true}}`+"\n",
 				string(b),
 			)
@@ -79,7 +81,8 @@ func TestSupervisorV1Service_Reboot_Local(t *testing.T) {
 				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
 				return
 			}
-			assert.Equal(t,
+			assert.Equal(
+				t,
 				`{"force":true}`+"\n",
 				string(b),
 			)
