@@ -316,6 +316,27 @@ func TestDeviceEnvVarService_DeleteWithName_UUID_OK(t *testing.T) {
 	assert.NilError(t, err)
 }
 
+func TestDeviceEnvVarService_Update(t *testing.T) {
+	// Given
+	uuid := "12345678901234567890"
+	key := "key"
+	client, mux, cleanup := newFixture()
+	defer cleanup()
+	mux.HandleFunc("/"+deviceEnvVarBasePath, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPatch)
+		expected := "%24filter=device/uuid+eq+%27" + uuid + "%27+and+name+eq+%27" + key + "%27"
+		if r.URL.RawQuery != expected {
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			return
+		}
+		_, _ = fmt.Fprint(w, "OK")
+	})
+	// When
+	err := client.DeviceEnvVar.Update(context.Background(), DeviceUUID(uuid), key, "newVal")
+	// Then
+	assert.NilError(t, err)
+}
+
 func TestDeviceEnvVarService_DeleteWithName_NotFound(t *testing.T) {
 	// Given
 	deviceID := int64(123456)

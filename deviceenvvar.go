@@ -9,7 +9,7 @@ import (
 	"go.einride.tech/balena/odata"
 )
 
-const deviceEnvVarBasePath = "v4/device_environment_variable"
+const deviceEnvVarBasePath = "v6/device_environment_variable"
 
 type DeviceEnvVarService service
 
@@ -77,6 +77,28 @@ func (s *DeviceEnvVarService) Create(
 		return nil, fmt.Errorf("unable to perform request: %v", err)
 	}
 	return resp, nil
+}
+
+// Update a variable with the given name from the device with given ID/UUID to the specified new value.
+// No error is returned if no variable with such name exists.
+func (s *DeviceEnvVarService) Update(ctx context.Context, deviceID IDOrUUID, name, newValue string) error {
+	query := "%24filter=device+eq+%27" + deviceID.id + "%27"
+	if deviceID.isUUID {
+		query = "%24filter=device/uuid+eq+%27" + deviceID.id + "%27"
+	}
+	query = query + "+and+name+eq+%27" + name + "%27"
+	body := struct {
+		Value string `json:"value"`
+	}{Value: newValue}
+	req, err := s.client.NewRequest(ctx, http.MethodPatch, deviceEnvVarBasePath, query, body)
+	if err != nil {
+		return fmt.Errorf("unable to create request: %v", err)
+	}
+	err = s.client.Do(req, nil)
+	if err != nil {
+		return fmt.Errorf("unable to perform request: %v", err)
+	}
+	return nil
 }
 
 // DeleteWithName deletes a variable with the given name from the device with given ID/UUID.
