@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strconv"
 	"testing"
@@ -41,7 +41,7 @@ func TestDeviceTagService_List_ID(t *testing.T) {
 		expected := "%24filter=device/id+eq+%27" + strconv.FormatInt(deviceID, 10) + "%27"
 		if r.URL.RawQuery != expected {
 			t.Logf("query = %s ; expected %s\n", r.URL.RawQuery, expected)
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, jsonResp)
@@ -91,7 +91,7 @@ func TestDeviceTagService_List_UUID(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=device/uuid+eq+%27" + uuid + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, jsonResp)
@@ -142,7 +142,7 @@ func TestDeviceTagService_Create_ID(t *testing.T) {
 	}
 	mux.HandleFunc("/"+deviceTagBasePath, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		b, err := ioutil.ReadAll(r.Body)
+		b, err := io.ReadAll(r.Body)
 		assert.NilError(t, err)
 		req := &request{}
 		assert.NilError(t, json.Unmarshal(b, req))
@@ -198,7 +198,7 @@ func TestDeviceTagService_Create_UUID(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=uuid+eq+%27" + uuid + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		resp := `{"d":[{"id":123456}]}`
@@ -206,7 +206,7 @@ func TestDeviceTagService_Create_UUID(t *testing.T) {
 	})
 	mux.HandleFunc("/"+deviceTagBasePath, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		b, err := ioutil.ReadAll(r.Body)
+		b, err := io.ReadAll(r.Body)
 		assert.NilError(t, err)
 		req := &request{}
 		assert.NilError(t, json.Unmarshal(b, req))
@@ -259,7 +259,7 @@ func TestDeviceTagService_GetWithKey_ID(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=device/id+eq+%27" + strconv.FormatInt(deviceID, 10) + "%27+and+tag_key+eq+%27" + key + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, jsonResp)
@@ -308,7 +308,7 @@ func TestDeviceTagService_GetWithKey_UUID(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=device/uuid+eq+%27" + deviceUUID + "%27+and+tag_key+eq+%27" + key + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, jsonResp)
@@ -359,7 +359,7 @@ func TestDeviceTagService_UpdateWithKey_UUID(t *testing.T) {
 		testMethod(t, r, http.MethodPatch)
 		expected := "%24filter=device/uuid+eq+%27" + uuid + "%27+and+tag_key+eq+%27" + key + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, "OK")
@@ -381,7 +381,7 @@ func TestDeviceTagService_UpdateWithKey_ID(t *testing.T) {
 		testMethod(t, r, http.MethodPatch)
 		expected := "%24filter=device/id+eq+%27" + strconv.FormatInt(id, 10) + "%27+and+tag_key+eq+%27" + key + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, "OK")
@@ -420,7 +420,7 @@ func TestDeviceTagService_DeleteWithKey_ID(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 		expected := "%24filter=device/id+eq+%27" + strconv.FormatInt(deviceID, 10) + "%27+and+tag_key+eq+%27" + key + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, jsonResp)
@@ -459,7 +459,7 @@ func TestDeviceTagService_DeleteWithKey_UUID(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 		expected := "%24filter=device/uuid+eq+%27" + uuid + "%27+and+tag_key+eq+%27" + key + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, jsonResp)
@@ -496,7 +496,7 @@ func TestDeviceTagService_GetWithQuery(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=key+eq+%27value%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, jsonResp)

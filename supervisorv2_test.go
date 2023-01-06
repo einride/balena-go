@@ -3,7 +3,7 @@ package balena
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"testing"
@@ -21,7 +21,7 @@ func TestSupervisorV2Service_RestartServiceByName_Cloud(t *testing.T) {
 		"/supervisor/v2/applications/1514287/restart-service",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			assert.Equal(
 				t,
@@ -47,11 +47,11 @@ func TestSupervisorV2Service_RestartServiceByName_Local(t *testing.T) {
 		"/v2/applications/1122334/restart-service",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			expected := "apikey=test"
 			if r.URL.RawQuery != expected {
-				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 				return
 			}
 			assert.Equal(t, `{"serviceName":"testsvc"}`+"\n", string(b))
@@ -74,7 +74,7 @@ func TestSupervisorV2Service_StopServiceByName_Cloud(t *testing.T) {
 		"/supervisor/v2/applications/1514287/stop-service",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			assert.Equal(
 				t,
@@ -100,11 +100,11 @@ func TestSupervisorV2Service_StopServiceByName_Local(t *testing.T) {
 		"/v2/applications/1122334/stop-service",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			expected := "apikey=test"
 			if r.URL.RawQuery != expected {
-				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 				return
 			}
 			assert.Equal(t, `{"serviceName":"testsvc"}`+"\n", string(b))
@@ -157,7 +157,7 @@ func TestSupervisorV2Service_ApplicationState_Cloud(t *testing.T) {
 		"/supervisor/v2/applications/1514287/state",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			assert.Equal(t, `{"uuid":"00d859f123685e84772676f09465cc55","method":"GET"}`+"\n", string(b))
 			fmt.Fprint(w, jsonResp)
@@ -210,11 +210,11 @@ func TestSupervisorV2Service_ApplicationState_Local(t *testing.T) {
 		"/v2/applications/1122334/state",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodGet)
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			expected := "apikey=test"
 			if r.URL.RawQuery != expected {
-				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 				return
 			}
 			assert.Equal(t, "", string(b))

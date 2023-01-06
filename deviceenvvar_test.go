@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strconv"
 	"testing"
@@ -41,7 +41,7 @@ func TestDeviceEnvVarService_List_ID(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=device+eq+%27123456%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, jsonResp)
@@ -93,7 +93,7 @@ func TestDeviceEnvVarService_List_UUID(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=device/uuid+eq+%27" + uuid + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, jsonResp)
@@ -146,7 +146,7 @@ func TestDeviceEnvVarService_Create_ID(t *testing.T) {
 	}
 	mux.HandleFunc("/"+deviceEnvVarBasePath, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		b, err := ioutil.ReadAll(r.Body)
+		b, err := io.ReadAll(r.Body)
 		assert.NilError(t, err)
 		req := &request{}
 		assert.NilError(t, json.Unmarshal(b, req))
@@ -204,7 +204,7 @@ func TestDeviceEnvVarService_Create_UUID(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=uuid+eq+%27" + uuid + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		resp := `{"d":[{"id":123456}]}`
@@ -212,7 +212,7 @@ func TestDeviceEnvVarService_Create_UUID(t *testing.T) {
 	})
 	mux.HandleFunc("/"+deviceEnvVarBasePath, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		b, err := ioutil.ReadAll(r.Body)
+		b, err := io.ReadAll(r.Body)
 		assert.NilError(t, err)
 		req := &request{}
 		assert.NilError(t, json.Unmarshal(b, req))
@@ -248,7 +248,7 @@ func TestDeviceEnvVarService_DeleteWithName_ID_OK(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 		expected := "%24filter=device+eq+%27" + strconv.FormatInt(deviceID, 10) + "%27+and+name+eq+%27" + key + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, `{
@@ -287,7 +287,7 @@ func TestDeviceEnvVarService_DeleteWithName_UUID_OK(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 		expected := "%24filter=device/uuid+eq+%27" + uuid + "%27+and+name+eq+%27" + key + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, `{
@@ -326,7 +326,7 @@ func TestDeviceEnvVarService_Update(t *testing.T) {
 		testMethod(t, r, http.MethodPatch)
 		expected := "%24filter=device/uuid+eq+%27" + uuid + "%27+and+name+eq+%27" + key + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		_, _ = fmt.Fprint(w, "OK")
@@ -347,7 +347,7 @@ func TestDeviceEnvVarService_DeleteWithName_NotFound(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 		expected := "%24filter=device+eq+%27" + strconv.FormatInt(deviceID, 10) + "%27+and+name+eq+%27" + key + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, `{

@@ -3,7 +3,7 @@ package balena
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strconv"
 	"testing"
@@ -112,7 +112,7 @@ func TestApplicationService_GetWithQuery(t *testing.T) {
 			testMethod(t, r, http.MethodGet)
 			expected := "%24filter=app_name%20eq%20%27dev-device%27"
 			if r.URL.RawQuery != expected {
-				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 				return
 			}
 			fmt.Fprint(w, applicationListResponse)
@@ -226,7 +226,7 @@ func TestApplicationService_GetByName(t *testing.T) {
 			testMethod(t, r, http.MethodGet)
 			expected := "%24filter=app_name%20eq%20%27dev-device%27"
 			if r.URL.RawQuery != expected {
-				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 				return
 			}
 			fmt.Fprint(w, applicationListResponse)
@@ -275,7 +275,7 @@ func TestApplicationService_GetByName_NotFound(t *testing.T) {
 			testMethod(t, r, http.MethodGet)
 			expected := "%24filter=app_name%20eq%20%27dev-device%27"
 			if r.URL.RawQuery != expected {
-				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 				return
 			}
 			fmt.Fprint(w, `{"d":[]}`)
@@ -297,7 +297,7 @@ func TestApplicationService_EnableTrackLatestRelease(t *testing.T) {
 		"/"+odata.EntityURL(applicationBasePath, strconv.FormatInt(entityID, 10)),
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPatch)
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			assert.Equal(t, `{"should_track_latest_release":true}`+"\n", string(b))
 			fmt.Fprint(w, "OK")
@@ -319,7 +319,7 @@ func TestApplicationService_DisableTrackLatestRelease(t *testing.T) {
 		"/"+odata.EntityURL(applicationBasePath, strconv.FormatInt(entityID, 10)),
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPatch)
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			assert.Equal(t, `{"should_track_latest_release":false}`+"\n", string(b))
 			fmt.Fprint(w, "OK")

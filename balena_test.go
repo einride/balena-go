@@ -3,7 +3,7 @@ package balena
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -28,7 +28,7 @@ func TestNewRequest(t *testing.T) {
 	// test relative URL was expanded
 	assert.Equal(t, req.URL.String(), outURL)
 	// test body was JSON encoded
-	body, _ := ioutil.ReadAll(req.Body)
+	body, _ := io.ReadAll(req.Body)
 	assert.Equal(t, string(body), outBody)
 
 	// test default user-agent is attached to the request

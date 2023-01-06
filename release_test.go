@@ -213,7 +213,7 @@ func TestReleaseService_GetWithQuery(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=key+eq+%27value%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, releaseResponse)
