@@ -46,7 +46,8 @@ type service struct {
 }
 
 // An ErrorResponse reports the error caused by an API request.
-// nolint: errname // TODO: Consider breaking change to follow XxxError naming convention.
+//
+//nolint:errname // TODO: Consider breaking change to follow XxxError naming convention.
 type ErrorResponse struct {
 	// HTTP response that caused this error
 	Response *http.Response

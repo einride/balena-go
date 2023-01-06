@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strconv"
 	"testing"
@@ -68,7 +68,7 @@ func TestDeviceServVarService_List_ID(t *testing.T) {
 		//nolint:lll
 		expected := "%24filter=service_install/device+eq+%27123456%27&$expand=service_install($select=id,device,created_at;$expand=installs__service($select=id,service_name,created_at,application))"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		_, _ = fmt.Fprint(w, jsonResp)
@@ -165,7 +165,7 @@ func TestDeviceServVarService_List_UUID(t *testing.T) {
 		//nolint:lll
 		expected := "%24filter=service_install/device/uuid+eq+%27" + uuid + "%27&$expand=service_install($select=id,device,created_at;$expand=installs__service($select=id,service_name,created_at,application))"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		_, _ = fmt.Fprint(w, jsonResp)
@@ -240,7 +240,7 @@ func TestDeviceServVarService_Create_ID(t *testing.T) {
 	})
 	mux.HandleFunc("/"+deviceServVarBasePath, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		b, err := ioutil.ReadAll(r.Body)
+		b, err := io.ReadAll(r.Body)
 		assert.NilError(t, err)
 		req := &request{}
 		assert.NilError(t, json.Unmarshal(b, req))
@@ -298,7 +298,7 @@ func TestDeviceServVarService_Create_UUID(t *testing.T) {
 	})
 	mux.HandleFunc("/"+deviceServVarBasePath, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		b, err := ioutil.ReadAll(r.Body)
+		b, err := io.ReadAll(r.Body)
 		assert.NilError(t, err)
 		req := &request{}
 		assert.NilError(t, json.Unmarshal(b, req))
@@ -335,7 +335,7 @@ func TestDeviceServVarService_DeleteWithName_ID_OK(t *testing.T) {
 		expected := "%24filter=service_install/device+eq+%27" +
 			strconv.FormatInt(deviceID, 10) + "%27+and+name+eq+%27" + key + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		_, _ = fmt.Fprint(w, `{
@@ -374,7 +374,7 @@ func TestDeviceServVarService_Update(t *testing.T) {
 		testMethod(t, r, http.MethodPatch)
 		expected := "%24filter=service_install/device/uuid+eq+%27" + uuid + "%27+and+name+eq+%27" + key + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		_, _ = fmt.Fprint(w, "OK")
@@ -395,7 +395,7 @@ func TestDeviceServVarService_DeleteWithName_UUID_OK(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 		expected := "%24filter=service_install/device/uuid+eq+%27" + uuid + "%27+and+name+eq+%27" + key + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		_, _ = fmt.Fprint(w, `{
@@ -435,7 +435,7 @@ func TestDeviceServVarService_DeleteWithName_NotFound(t *testing.T) {
 		expected := "%24filter=service_install/device+eq+%27" +
 			strconv.FormatInt(deviceID, 10) + "%27+and+name+eq+%27" + key + "%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		_, _ = fmt.Fprint(w, `{

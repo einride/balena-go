@@ -3,7 +3,7 @@ package balena
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strconv"
 	"testing"
@@ -200,7 +200,7 @@ func TestDeviceService_ListByApplication(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=belongs_to__application%20eq%20%271234587%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, deviceResponse)
@@ -370,7 +370,7 @@ func TestDeviceService_Get_UUID(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=uuid+eq+%27123456789123456789%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, deviceResponse)
@@ -455,7 +455,7 @@ func TestDeviceService_Get_NotFound(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=uuid+eq+%27123456789123456789%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, `{"d":[]}`)
@@ -475,7 +475,7 @@ func TestDeviceService_GetWithQuery(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		expected := "%24filter=key+eq+%27value%27"
 		if r.URL.RawQuery != expected {
-			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+			http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 			return
 		}
 		fmt.Fprint(w, deviceResponse)
@@ -563,7 +563,7 @@ func TestDeviceService_PinRelease_ID(t *testing.T) {
 		"/"+odata.EntityURL(deviceBasePath, strconv.FormatInt(entityID, 10)),
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPatch)
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			assert.Equal(t, `{"should_be_running__release":"14332"}`+"\n", string(b))
 			fmt.Fprint(w, "OK")
@@ -588,10 +588,10 @@ func TestDeviceService_PinRelease_UUID(t *testing.T) {
 			testMethod(t, r, http.MethodPatch)
 			expected := "%24filter=uuid+eq+%27" + uuid + "%27"
 			if r.URL.RawQuery != expected {
-				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 				return
 			}
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			assert.Equal(t, `{"should_be_running__release":"14332"}`+"\n", string(b))
 			fmt.Fprint(w, "OK")
@@ -613,7 +613,7 @@ func TestDeviceService_TrackLatestRelease_ID(t *testing.T) {
 		"/"+odata.EntityURL(deviceBasePath, strconv.FormatInt(entityID, 10)),
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPatch)
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			assert.Equal(t, `{"should_be_running__release":null}`+"\n", string(b))
 			fmt.Fprint(w, "OK")
@@ -637,10 +637,10 @@ func TestDeviceService_TrackLatestRelease_UUID(t *testing.T) {
 			testMethod(t, r, http.MethodPatch)
 			expected := "%24filter=uuid+eq+%27" + uuid + "%27"
 			if r.URL.RawQuery != expected {
-				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 				return
 			}
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			assert.Equal(t, `{"should_be_running__release":null}`+"\n", string(b))
 			fmt.Fprint(w, "OK")

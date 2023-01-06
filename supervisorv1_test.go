@@ -3,7 +3,7 @@ package balena
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"testing"
@@ -21,7 +21,7 @@ func TestSupervisorV1Service_Reboot_Cloud(t *testing.T) {
 		"/supervisor/v1/reboot",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			assert.Equal(
 				t,
@@ -47,7 +47,7 @@ func TestSupervisorV1Service_Reboot_CloudError(t *testing.T) {
 		"/supervisor/v1/reboot",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			assert.Equal(
 				t,
@@ -74,11 +74,11 @@ func TestSupervisorV1Service_Reboot_Local(t *testing.T) {
 		"/v1/reboot",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
-			b, err := ioutil.ReadAll(r.Body)
+			b, err := io.ReadAll(r.Body)
 			assert.NilError(t, err)
 			expected := "apikey=test"
 			if r.URL.RawQuery != expected {
-				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), 500)
+				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
 				return
 			}
 			assert.Equal(
