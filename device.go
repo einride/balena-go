@@ -57,6 +57,7 @@ type DeviceResponse struct {
 	CustomLongitude                    string        `json:"custom_longitude,omitempty"`
 	CustomLatitude                     string        `json:"custom_latitude,omitempty"`
 	CreatedAt                          string        `json:"created_at,omitempty"`
+	OverallStatus                      string        `json:"overall_status,omitempty"`
 	DeviceType                         *odata.Object `json:"device_type,omitempty"`
 	BelongsToApplication               *odata.Object `json:"belongs_to__application,omitempty"`
 	BelongsToUser                      *odata.Object `json:"belongs_to__user,omitempty"`
