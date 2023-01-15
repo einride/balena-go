@@ -30,6 +30,7 @@ type ApplicationsResponse struct {
 	AppName                        string        `json:"app_name,omitempty"`
 	Actor                          int64         `json:"actor,omitempty"`
 	Slug                           string        `json:"slug,omitempty"`
+	IsOfClass                      string        `json:"is_of__class,omitempty"`
 	Organization                   *odata.Object `json:"organization,omitempty"`
 	ShouldBeRunningRelease         *odata.Object `json:"should_be_running__release,omitempty"`
 	IsForDeviceType                *odata.Object `json:"is_for__device_type,omitempty"`

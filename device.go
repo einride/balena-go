@@ -72,6 +72,8 @@ type DeviceResponse struct {
 	LogsChannel                        interface{}   `json:"logs_channel,omitempty"`
 	IsLockedUntil                      interface{}   `json:"is_locked_until__date,omitempty"`
 	IsAccessibleBySupportUntil         interface{}   `json:"is_accessible_by_support_until__date,omitempty"`
+	// OverallStatus will only be populated when explicitly selected through a query parameter: `$select=overall_status`.
+	OverallStatus string `json:"overall_status,omitempty"`
 }
 
 // List returns a list of all devices.
