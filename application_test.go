@@ -45,6 +45,7 @@ const (
     	      "uri": "/resin/device_type(@id)?@id=60"
     	    }
     	  },
+    	  "is_of__class": "fleet",
     	  "should_track_latest_release": true,
     	  "is_accessible_by_support_until__date": null,
     	  "is_public": true,
@@ -79,6 +80,7 @@ func TestApplicationService_List(t *testing.T) {
 			Actor:                700068,
 			AppName:              "Stellarium",
 			Slug:                 "david_tischler1/stellarium",
+			IsOfClass:            "fleet",
 			ShouldBeRunningRelease: &odata.Object{
 				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
 			},
@@ -129,6 +131,7 @@ func TestApplicationService_GetWithQuery(t *testing.T) {
 			Actor:                700068,
 			AppName:              "Stellarium",
 			Slug:                 "david_tischler1/stellarium",
+			IsOfClass:            "fleet",
 			ShouldBeRunningRelease: &odata.Object{
 				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
 			},
@@ -174,6 +177,7 @@ func TestApplicationService_Get(t *testing.T) {
 		Actor:                700068,
 		AppName:              "Stellarium",
 		Slug:                 "david_tischler1/stellarium",
+		IsOfClass:            "fleet",
 		ShouldBeRunningRelease: &odata.Object{
 			Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
 		},
@@ -242,6 +246,7 @@ func TestApplicationService_GetByName(t *testing.T) {
 		Actor:                700068,
 		AppName:              "Stellarium",
 		Slug:                 "david_tischler1/stellarium",
+		IsOfClass:            "fleet",
 		ShouldBeRunningRelease: &odata.Object{
 			Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
 		},
