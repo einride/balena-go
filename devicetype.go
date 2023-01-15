@@ -9,4 +9,5 @@ type DeviceType struct {
 	UUID         string       `json:"uuid"`
 	IsPrivate    bool         `json:"is_private"`
 	Architecture odata.Object `json:"is_of__cpu_architecture"`
+	BelongsToFamily     *odata.Object `json:"belongs_to__device_family,omitempty"`
 }

@@ -36,6 +36,7 @@ type ApplicationsResponse struct {
 	IsForDeviceType                *odata.Object `json:"is_for__device_type,omitempty"`
 	DependsOnApplication           interface{}   `json:"depends_on__application,omitempty"`
 	IsAccessibleBySupportUntilDate interface{}   `json:"is_accessible_by_support_until__date,omitempty"`
+	OwnsDevice                     *odata.Object `json:"owns__device,omitempty"`
 }
 
 func (s *ApplicationService) List(ctx context.Context) ([]*ApplicationsResponse, error) {
