@@ -73,8 +73,10 @@ func TestApplicationService_List(t *testing.T) {
 		{
 			ID:   1234567,
 			UUID: "fc02cb0c1f174d10811303446cde8aae",
-			Organization: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/organization(@id)?@id=122333"}, ID: 122333,
+			Organization: &OrganizationOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/organization(@id)?@id=122333"}, ID: 122333,
+				},
 			},
 			DependsOnApplication: nil,
 			Actor:                700068,
@@ -128,8 +130,10 @@ func TestApplicationService_GetWithQuery(t *testing.T) {
 		{
 			ID:   1234567,
 			UUID: "fc02cb0c1f174d10811303446cde8aae",
-			Organization: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/organization(@id)?@id=122333"}, ID: 122333,
+			Organization: &OrganizationOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/organization(@id)?@id=122333"}, ID: 122333,
+				},
 			},
 			DependsOnApplication: nil,
 			Actor:                700068,
@@ -178,8 +182,10 @@ func TestApplicationService_Get(t *testing.T) {
 	expected := &ApplicationsResponse{
 		ID:   1234567,
 		UUID: "fc02cb0c1f174d10811303446cde8aae",
-		Organization: &odata.Object{
-			Deferred: odata.Deferred{URI: "/resin/organization(@id)?@id=122333"}, ID: 122333,
+		Organization: &OrganizationOData{
+			Object: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/organization(@id)?@id=122333"}, ID: 122333,
+			},
 		},
 		DependsOnApplication: nil,
 		Actor:                700068,
@@ -251,8 +257,10 @@ func TestApplicationService_GetByName(t *testing.T) {
 	expected := &ApplicationsResponse{
 		ID:   1234567,
 		UUID: "fc02cb0c1f174d10811303446cde8aae",
-		Organization: &odata.Object{
-			Deferred: odata.Deferred{URI: "/resin/organization(@id)?@id=122333"}, ID: 122333,
+		Organization: &OrganizationOData{
+			Object: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/organization(@id)?@id=122333"}, ID: 122333,
+			},
 		},
 		DependsOnApplication: nil,
 		Actor:                700068,

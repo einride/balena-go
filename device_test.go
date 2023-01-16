@@ -124,8 +124,10 @@ func TestDeviceService_List_ID(t *testing.T) {
 			ID:         4218895,
 			Actor:      7288314,
 			DeviceName: "log-station-office",
-			DeviceType: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
+			DeviceType: &DeviceTypeOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
+				},
 			},
 			UUID:                  "6fe2836d9bbebc5b399f5fc28b840e8e",
 			LastConnectivityEvent: "2021-05-23T04:13:21.629Z",
@@ -149,19 +151,25 @@ func TestDeviceService_List_ID(t *testing.T) {
 			IsConnectedToVPN:      true,
 			IsWebAccessible:       false,
 			IsActive:              true,
-			BelongsToApplication: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/application(@id)?@id=1827427"}, ID: 1827427,
+			BelongsToApplication: &ApplicationsOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/application(@id)?@id=1827427"}, ID: 1827427,
+				},
 			},
 			BelongsToUser: nil,
 			IsManagedByServiceInstance: &odata.Object{
 				Deferred: odata.Deferred{URI: "/resin/service_instance(@id)?@id=124474"}, ID: 124474,
 			},
 			IsManagedByDevice: nil,
-			IsRunningRelease: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+			IsRunningRelease: &ReleaseOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+				},
 			},
-			ShouldBeRunningRelease: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+			ShouldBeRunningRelease: &ReleaseOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+				},
 			},
 			Note:    nil,
 			LocalID: nil,
@@ -212,8 +220,10 @@ func TestDeviceService_ListByApplication(t *testing.T) {
 			ID:         4218895,
 			Actor:      7288314,
 			DeviceName: "log-station-office",
-			DeviceType: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
+			DeviceType: &DeviceTypeOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
+				},
 			},
 			UUID:                  "6fe2836d9bbebc5b399f5fc28b840e8e",
 			LastConnectivityEvent: "2021-05-23T04:13:21.629Z",
@@ -237,19 +247,25 @@ func TestDeviceService_ListByApplication(t *testing.T) {
 			IsConnectedToVPN:      true,
 			IsWebAccessible:       false,
 			IsActive:              true,
-			BelongsToApplication: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/application(@id)?@id=1827427"}, ID: 1827427,
+			BelongsToApplication: &ApplicationsOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/application(@id)?@id=1827427"}, ID: 1827427,
+				},
 			},
 			BelongsToUser: nil,
 			IsManagedByServiceInstance: &odata.Object{
 				Deferred: odata.Deferred{URI: "/resin/service_instance(@id)?@id=124474"}, ID: 124474,
 			},
 			IsManagedByDevice: nil,
-			IsRunningRelease: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+			IsRunningRelease: &ReleaseOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+				},
 			},
-			ShouldBeRunningRelease: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+			ShouldBeRunningRelease: &ReleaseOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+				},
 			},
 			Note:    nil,
 			LocalID: nil,
@@ -297,8 +313,10 @@ func TestDeviceService_Get_ID(t *testing.T) {
 		ID:         4218895,
 		Actor:      7288314,
 		DeviceName: "log-station-office",
-		DeviceType: &odata.Object{
-			Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
+		DeviceType: &DeviceTypeOData{
+			Object: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
+			},
 		},
 		UUID:                  "6fe2836d9bbebc5b399f5fc28b840e8e",
 		LastConnectivityEvent: "2021-05-23T04:13:21.629Z",
@@ -322,19 +340,25 @@ func TestDeviceService_Get_ID(t *testing.T) {
 		IsConnectedToVPN:      true,
 		IsWebAccessible:       false,
 		IsActive:              true,
-		BelongsToApplication: &odata.Object{
-			Deferred: odata.Deferred{URI: "/resin/application(@id)?@id=1827427"}, ID: 1827427,
+		BelongsToApplication: &ApplicationsOData{
+			Object: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/application(@id)?@id=1827427"}, ID: 1827427,
+			},
 		},
 		BelongsToUser: nil,
 		IsManagedByServiceInstance: &odata.Object{
 			Deferred: odata.Deferred{URI: "/resin/service_instance(@id)?@id=124474"}, ID: 124474,
 		},
 		IsManagedByDevice: nil,
-		IsRunningRelease: &odata.Object{
-			Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+		IsRunningRelease: &ReleaseOData{
+			Object: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+			},
 		},
-		ShouldBeRunningRelease: &odata.Object{
-			Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+		ShouldBeRunningRelease: &ReleaseOData{
+			Object: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+			},
 		},
 		Note:    nil,
 		LocalID: nil,
@@ -383,8 +407,10 @@ func TestDeviceService_Get_UUID(t *testing.T) {
 		ID:         4218895,
 		Actor:      7288314,
 		DeviceName: "log-station-office",
-		DeviceType: &odata.Object{
-			Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
+		DeviceType: &DeviceTypeOData{
+			Object: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
+			},
 		},
 		UUID:                  "6fe2836d9bbebc5b399f5fc28b840e8e",
 		LastConnectivityEvent: "2021-05-23T04:13:21.629Z",
@@ -408,19 +434,25 @@ func TestDeviceService_Get_UUID(t *testing.T) {
 		IsConnectedToVPN:      true,
 		IsWebAccessible:       false,
 		IsActive:              true,
-		BelongsToApplication: &odata.Object{
-			Deferred: odata.Deferred{URI: "/resin/application(@id)?@id=1827427"}, ID: 1827427,
+		BelongsToApplication: &ApplicationsOData{
+			Object: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/application(@id)?@id=1827427"}, ID: 1827427,
+			},
 		},
 		BelongsToUser: nil,
 		IsManagedByServiceInstance: &odata.Object{
 			Deferred: odata.Deferred{URI: "/resin/service_instance(@id)?@id=124474"}, ID: 124474,
 		},
 		IsManagedByDevice: nil,
-		IsRunningRelease: &odata.Object{
-			Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+		IsRunningRelease: &ReleaseOData{
+			Object: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+			},
 		},
-		ShouldBeRunningRelease: &odata.Object{
-			Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+		ShouldBeRunningRelease: &ReleaseOData{
+			Object: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+			},
 		},
 		Note:    nil,
 		LocalID: nil,
@@ -490,8 +522,10 @@ func TestDeviceService_GetWithQuery(t *testing.T) {
 			ID:         4218895,
 			Actor:      7288314,
 			DeviceName: "log-station-office",
-			DeviceType: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
+			DeviceType: &DeviceTypeOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
+				},
 			},
 			UUID:                  "6fe2836d9bbebc5b399f5fc28b840e8e",
 			LastConnectivityEvent: "2021-05-23T04:13:21.629Z",
@@ -515,19 +549,25 @@ func TestDeviceService_GetWithQuery(t *testing.T) {
 			IsConnectedToVPN:      true,
 			IsWebAccessible:       false,
 			IsActive:              true,
-			BelongsToApplication: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/application(@id)?@id=1827427"}, ID: 1827427,
+			BelongsToApplication: &ApplicationsOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/application(@id)?@id=1827427"}, ID: 1827427,
+				},
 			},
 			BelongsToUser: nil,
 			IsManagedByServiceInstance: &odata.Object{
 				Deferred: odata.Deferred{URI: "/resin/service_instance(@id)?@id=124474"}, ID: 124474,
 			},
 			IsManagedByDevice: nil,
-			IsRunningRelease: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+			IsRunningRelease: &ReleaseOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+				},
 			},
-			ShouldBeRunningRelease: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+			ShouldBeRunningRelease: &ReleaseOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1796078"}, ID: 1796078,
+				},
 			},
 			Note:    nil,
 			LocalID: nil,
