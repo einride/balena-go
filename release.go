@@ -38,6 +38,21 @@ type ReleaseResponse struct {
 	ContainsImage        []*ImageResponse `json:"contains__image,omitempty"`
 }
 
+type ReleaseOData struct {
+	D []*ReleaseResponse
+	*odata.Object
+}
+
+func (d *ReleaseOData) UnmarshalJSON(data []byte) error {
+	o := new(odata.Object)
+	if err := json.Unmarshal(data, o); err == nil {
+		d.Object = o
+		return nil
+	}
+
+	return json.Unmarshal(data, &d.D)
+}
+
 // List lists all releases.
 func (s *ReleaseService) List(ctx context.Context) ([]*ReleaseResponse, error) {
 	return s.GetWithQuery(ctx, "")

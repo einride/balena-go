@@ -81,11 +81,15 @@ func TestApplicationService_List(t *testing.T) {
 			AppName:              "Stellarium",
 			Slug:                 "david_tischler1/stellarium",
 			IsOfClass:            "fleet",
-			ShouldBeRunningRelease: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
+			ShouldBeRunningRelease: &ReleaseOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
+				},
 			},
-			IsForDeviceType: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=60"}, ID: 60,
+			IsForDeviceType: &DeviceTypeOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=60"}, ID: 60,
+				},
 			},
 			ShouldTrackLatestRelease:       true,
 			IsAccessibleBySupportUntilDate: nil,
@@ -132,11 +136,15 @@ func TestApplicationService_GetWithQuery(t *testing.T) {
 			AppName:              "Stellarium",
 			Slug:                 "david_tischler1/stellarium",
 			IsOfClass:            "fleet",
-			ShouldBeRunningRelease: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
+			ShouldBeRunningRelease: &ReleaseOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
+				},
 			},
-			IsForDeviceType: &odata.Object{
-				Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=60"}, ID: 60,
+			IsForDeviceType: &DeviceTypeOData{
+				Object: &odata.Object{
+					Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=60"}, ID: 60,
+				},
 			},
 			ShouldTrackLatestRelease:       true,
 			IsAccessibleBySupportUntilDate: nil,
@@ -178,11 +186,15 @@ func TestApplicationService_Get(t *testing.T) {
 		AppName:              "Stellarium",
 		Slug:                 "david_tischler1/stellarium",
 		IsOfClass:            "fleet",
-		ShouldBeRunningRelease: &odata.Object{
-			Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
+		ShouldBeRunningRelease: &ReleaseOData{
+			Object: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
+			},
 		},
-		IsForDeviceType: &odata.Object{
-			Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=60"}, ID: 60,
+		IsForDeviceType: &DeviceTypeOData{
+			Object: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=60"}, ID: 60,
+			},
 		},
 		ShouldTrackLatestRelease:       true,
 		IsAccessibleBySupportUntilDate: nil,
@@ -247,11 +259,15 @@ func TestApplicationService_GetByName(t *testing.T) {
 		AppName:              "Stellarium",
 		Slug:                 "david_tischler1/stellarium",
 		IsOfClass:            "fleet",
-		ShouldBeRunningRelease: &odata.Object{
-			Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
+		ShouldBeRunningRelease: &ReleaseOData{
+			Object: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/release(@id)?@id=1798244"}, ID: 1798244,
+			},
 		},
-		IsForDeviceType: &odata.Object{
-			Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=60"}, ID: 60,
+		IsForDeviceType: &DeviceTypeOData{
+			Object: &odata.Object{
+				Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=60"}, ID: 60,
+			},
 		},
 		ShouldTrackLatestRelease:       true,
 		IsAccessibleBySupportUntilDate: nil,
