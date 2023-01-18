@@ -35,6 +35,8 @@ type ReleaseResponse struct {
 	CreatedByUser        *odata.Object   `json:"is_created_by__user,omitempty"`
 	ReleaseVersion       interface{}     `json:"release_version,omitempty"`
 	Composition          json.RawMessage `json:"composition,omitempty"`
+	// ReleaseImage will only be populated when explicitly selected through a query parameter: `$select=release_image`.
+	ReleaseImage []*ImageResponse `json:"release_image,omitempty"`
 }
 
 // List lists all releases.
