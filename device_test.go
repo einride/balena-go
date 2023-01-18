@@ -124,7 +124,7 @@ func TestDeviceService_List_ID(t *testing.T) {
 			ID:         4218895,
 			Actor:      7288314,
 			DeviceName: "log-station-office",
-			DeviceType: &DeviceTypeOData{
+			IsOfDeviceType: &DeviceTypeOData{
 				Object: &odata.Object{
 					Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
 				},
@@ -220,7 +220,7 @@ func TestDeviceService_ListByApplication(t *testing.T) {
 			ID:         4218895,
 			Actor:      7288314,
 			DeviceName: "log-station-office",
-			DeviceType: &DeviceTypeOData{
+			IsOfDeviceType: &DeviceTypeOData{
 				Object: &odata.Object{
 					Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
 				},
@@ -313,7 +313,7 @@ func TestDeviceService_Get_ID(t *testing.T) {
 		ID:         4218895,
 		Actor:      7288314,
 		DeviceName: "log-station-office",
-		DeviceType: &DeviceTypeOData{
+		IsOfDeviceType: &DeviceTypeOData{
 			Object: &odata.Object{
 				Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
 			},
@@ -407,7 +407,7 @@ func TestDeviceService_Get_UUID(t *testing.T) {
 		ID:         4218895,
 		Actor:      7288314,
 		DeviceName: "log-station-office",
-		DeviceType: &DeviceTypeOData{
+		IsOfDeviceType: &DeviceTypeOData{
 			Object: &odata.Object{
 				Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
 			},
@@ -522,7 +522,7 @@ func TestDeviceService_GetWithQuery(t *testing.T) {
 			ID:         4218895,
 			Actor:      7288314,
 			DeviceName: "log-station-office",
-			DeviceType: &DeviceTypeOData{
+			IsOfDeviceType: &DeviceTypeOData{
 				Object: &odata.Object{
 					Deferred: odata.Deferred{URI: "/resin/device_type(@id)?@id=58"}, ID: 58,
 				},
