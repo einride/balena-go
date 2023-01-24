@@ -45,7 +45,7 @@ const (
     	      "uri": "/resin/device_type(@id)?@id=60"
     	    }
     	  },
-		  "is_of__class": "fleet",
+    	  "is_of__class": "fleet",
     	  "should_track_latest_release": true,
     	  "is_accessible_by_support_until__date": null,
     	  "is_public": true,
