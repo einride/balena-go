@@ -2,6 +2,7 @@ package balena
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -19,6 +20,21 @@ type DeviceConfVarResponse struct {
 	Device    odata.Object `json:"device,omitempty"`
 	Name      string       `json:"name,omitempty"`
 	Value     string       `json:"value,omitempty"`
+}
+
+type DeviceConfVarOData struct {
+	D []*DeviceConfVarResponse
+	*odata.Object
+}
+
+func (d *DeviceConfVarOData) UnmarshalJSON(data []byte) error {
+	o := new(odata.Object)
+	if err := json.Unmarshal(data, o); err == nil {
+		d.Object = o
+		return nil
+	}
+
+	return json.Unmarshal(data, &d.D)
 }
 
 // List lists all environment variables given a specific device ID/UUID.

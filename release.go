@@ -18,23 +18,39 @@ const releaseBasePath = "v6/release"
 type ReleaseService service
 
 type ReleaseResponse struct {
-	ID                   int64           `json:"id,omitempty"`
-	IsInvalidated        bool            `json:"is_invalidated,omitempty"`
-	IsPassingTests       bool            `json:"is_passing_tests,omitempty"`
-	ReleaseType          string          `json:"release_type,omitempty"`
-	Contract             string          `json:"contract,omitempty"`
-	CreatedAt            string          `json:"created_at,omitempty"`
-	Commit               string          `json:"commit,omitempty"`
-	Status               string          `json:"status,omitempty"`
-	Source               string          `json:"source,omitempty"`
-	StartTimestamp       string          `json:"start_timestamp,omitempty"`
-	EndTimestamp         string          `json:"end_timestamp,omitempty"`
-	UpdateTimestamp      string          `json:"update_timestamp,omitempty"`
-	BuildLog             string          `json:"build_log,omitempty"`
-	BelongsToApplication *odata.Object   `json:"belongs_to__application,omitempty"`
-	CreatedByUser        *odata.Object   `json:"is_created_by__user,omitempty"`
-	ReleaseVersion       interface{}     `json:"release_version,omitempty"`
-	Composition          json.RawMessage `json:"composition,omitempty"`
+	ID                   int64            `json:"id,omitempty"`
+	IsInvalidated        bool             `json:"is_invalidated,omitempty"`
+	IsPassingTests       bool             `json:"is_passing_tests,omitempty"`
+	ReleaseType          string           `json:"release_type,omitempty"`
+	Contract             string           `json:"contract,omitempty"`
+	CreatedAt            string           `json:"created_at,omitempty"`
+	Commit               string           `json:"commit,omitempty"`
+	Status               string           `json:"status,omitempty"`
+	Source               string           `json:"source,omitempty"`
+	StartTimestamp       string           `json:"start_timestamp,omitempty"`
+	EndTimestamp         string           `json:"end_timestamp,omitempty"`
+	UpdateTimestamp      string           `json:"update_timestamp,omitempty"`
+	BuildLog             string           `json:"build_log,omitempty"`
+	BelongsToApplication *odata.Object    `json:"belongs_to__application,omitempty"`
+	CreatedByUser        *odata.Object    `json:"is_created_by__user,omitempty"`
+	ReleaseVersion       interface{}      `json:"release_version,omitempty"`
+	Composition          json.RawMessage  `json:"composition,omitempty"`
+	ContainsImage        []*ImageResponse `json:"contains__image,omitempty"`
+}
+
+type ReleaseOData struct {
+	D []*ReleaseResponse
+	*odata.Object
+}
+
+func (d *ReleaseOData) UnmarshalJSON(data []byte) error {
+	o := new(odata.Object)
+	if err := json.Unmarshal(data, o); err == nil {
+		d.Object = o
+		return nil
+	}
+
+	return json.Unmarshal(data, &d.D)
 }
 
 // List lists all releases.
