@@ -195,3 +195,36 @@ func (s *DeviceService) TrackLatestRelease(ctx context.Context, deviceID IDOrUUI
 	}
 	return buf.Bytes(), nil
 }
+
+// MoveToApplication changes which application a device belongs to.
+// If the update is successful, "OK" is returned and error is nil.
+// If either the specified device or application doesn't exist,
+// the returned error will contain "404".
+func (s *DeviceService) MoveToApplication(ctx context.Context, deviceID IDOrUUID, applicationID int64) ([]byte, error) {
+	type request struct {
+		BelongsToApplication string `json:"belongs_to__application"`
+	}
+	application := strconv.FormatInt(applicationID, 10)
+	var query string
+	path := odata.EntityURL(deviceBasePath, deviceID.id)
+	if deviceID.isUUID {
+		query = "%24filter=uuid+eq+%27" + deviceID.id + "%27"
+		path = deviceBasePath
+	}
+	req, err := s.client.NewRequest(
+		ctx,
+		http.MethodPatch,
+		path,
+		query,
+		&request{BelongsToApplication: application},
+	)
+	if err != nil {
+		return nil, fmt.Errorf("unable to create request: %v", err)
+	}
+	buf := &bytes.Buffer{}
+	err = s.client.Do(req, buf)
+	if err != nil {
+		return nil, fmt.Errorf("unable to patch device: %v", err)
+	}
+	return buf.Bytes(), nil
+}
