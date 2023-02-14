@@ -658,3 +658,54 @@ func TestDeviceService_TrackLatestRelease_UUID(t *testing.T) {
 	assert.NilError(t, err)
 	assert.Equal(t, "OK", string(resp))
 }
+
+func TestDeviceService_MoveToApplication_ID(t *testing.T) {
+	// Given
+	client, mux, cleanup := newFixture()
+	defer cleanup()
+	entityID := int64(112233)
+	applicationID := int64(1234567)
+	mux.HandleFunc(
+		"/"+odata.EntityURL(deviceBasePath, strconv.FormatInt(entityID, 10)),
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPatch)
+			b, err := io.ReadAll(r.Body)
+			assert.NilError(t, err)
+			assert.Equal(t, `{"belongs_to__application":"1234567"}`+"\n", string(b))
+			fmt.Fprint(w, "OK")
+		},
+	)
+	// When
+	resp, err := client.Device.MoveToApplication(context.Background(), DeviceID(entityID), applicationID)
+	// Then
+	assert.NilError(t, err)
+	assert.Equal(t, "OK", string(resp))
+}
+
+func TestDeviceService_MoveToApplication_UUID(t *testing.T) {
+	// Given
+	client, mux, cleanup := newFixture()
+	defer cleanup()
+	uuid := "123456789123456789"
+	applicationID := int64(1234567)
+	mux.HandleFunc(
+		"/"+deviceBasePath,
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPatch)
+			expected := "%24filter=uuid+eq+%27" + uuid + "%27"
+			if r.URL.RawQuery != expected {
+				http.Error(w, fmt.Sprintf("query = %s ; expected %s", r.URL.RawQuery, expected), http.StatusInternalServerError)
+				return
+			}
+			b, err := io.ReadAll(r.Body)
+			assert.NilError(t, err)
+			assert.Equal(t, `{"belongs_to__application":"1234567"}`+"\n", string(b))
+			fmt.Fprint(w, "OK")
+		},
+	)
+	// When
+	resp, err := client.Device.MoveToApplication(context.Background(), DeviceUUID(uuid), applicationID)
+	// Then
+	assert.NilError(t, err)
+	assert.Equal(t, "OK", string(resp))
+}
