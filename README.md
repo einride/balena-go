@@ -1,23 +1,23 @@
-Balena Go
-=========
+# Balena Go
 
 [![PkgGoDev](https://pkg.go.dev/badge/go.einride.tech/balena)](https://pkg.go.dev/go.einride.tech/balena)
 
-<br /> <img align="left" src="docs/logo.svg" width="180" height="180"> <br /> <br />
+<br /> <img align="left" src="docs/logo.svg" width="180" height="180"> <br />
+<br />
 
 Balena Go is a library for accessing the Balena API
 
-Balena API docs can be found [here](https://www.balena.io/docs/reference/api/overview/) <br /> <br /> <br /> <br />
+Balena API docs can be found
+[here](https://www.balena.io/docs/reference/api/overview/) <br /> <br /> <br />
+<br />
 
-Install
--------
+## Install
 
 ```sh
 go get go.einride.tech/balena
 ```
 
-Usage
------
+## Usage
 
 ```go
 import "go.einride.tech/balena"
@@ -25,7 +25,9 @@ import "go.einride.tech/balena"
 
 ### Authentication
 
-An [Authentication Token](https://www.balena.io/docs/reference/api/overview/#authentication) can be used to authenticate with the API
+An
+[Authentication Token](https://www.balena.io/docs/reference/api/overview/#authentication)
+can be used to authenticate with the API
 
 You can then use your token to create a new client:
 
