@@ -235,7 +235,7 @@ func TestDeviceServVarService_Create_ID(t *testing.T) {
 		Name             string `json:"name"`
 		Value            string `json:"value"`
 	}
-	mux.HandleFunc("/v6/service_install", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/v6/service_install", func(w http.ResponseWriter, _ *http.Request) {
 		_, _ = fmt.Fprintf(w, `{"D": [{"id": %d}]}`, serviceInstallID)
 	})
 	mux.HandleFunc("/"+deviceServVarBasePath, func(w http.ResponseWriter, r *http.Request) {
@@ -293,7 +293,7 @@ func TestDeviceServVarService_Create_UUID(t *testing.T) {
 		Name             string `json:"name"`
 		Value            string `json:"value"`
 	}
-	mux.HandleFunc("/v6/service_install", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/v6/service_install", func(w http.ResponseWriter, _ *http.Request) {
 		_, _ = fmt.Fprintf(w, `{"D": [{"id": %d}]}`, serviceInstallID)
 	})
 	mux.HandleFunc("/"+deviceServVarBasePath, func(w http.ResponseWriter, r *http.Request) {
