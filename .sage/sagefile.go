@@ -27,6 +27,11 @@ func All(ctx context.Context) error {
 	return nil
 }
 
+func DependabotFix(ctx context.Context) error {
+	sg.Deps(ctx, FormatMarkdown, FormatYAML, GoModTidy)
+	return nil
+}
+
 func FormatYAML(ctx context.Context) error {
 	sg.Logger(ctx).Println("formatting YAML files...")
 	return sgyamlfmt.Command(ctx).Run()

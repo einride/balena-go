@@ -51,6 +51,10 @@ all: $(sagefile)
 convco-check: $(sagefile)
 	@$(sagefile) ConvcoCheck
 
+.PHONY: dependabot-fix
+dependabot-fix: $(sagefile)
+	@$(sagefile) DependabotFix
+
 .PHONY: format-markdown
 format-markdown: $(sagefile)
 	@$(sagefile) FormatMarkdown

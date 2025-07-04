@@ -1,0 +1,21 @@
+name: Dependabot Make Fix
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+    branches:
+      - master
+
+jobs:
+  call-dependabot-make-fix:
+    permissions:
+      contents: write
+      id-token: write
+      pull-requests: write
+    uses: einride/github-actions/.github/workflows/reusable-dependabot-make.yaml@master
+    secrets:
+      einridebot_personal_access_token:
+        ${{ secrets.EINRIDEBOT_PERSONAL_ACCESS_TOKEN }}
