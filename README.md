@@ -1,6 +1,8 @@
 # Balena Go
 
-> [!WARNING] **This repository is no longer maintained and has been archived.**
+> [!WARNING]
+>
+> **This repository is no longer maintained and has been archived.**
 >
 > Einride no longer uses this project, so we are not able to maintain it. The
 > repository will be removed at some point in the near future but until then the
